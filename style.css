@@ -33,9 +33,11 @@ p {
 .menu-icon {
   font-size: 50px;       /* daha büyük */
   cursor: pointer;
-  color: #fff;           /* beyaz */
+  color: #fff !important; /* kesin beyaz yapmak için !important */
+  font-weight: bold;      /* daha belirgin */
   margin-left: auto;      /* sağa itmek için */
   margin-right: 15px;     /* sağdan boşluk */
+  text-shadow: 0 0 2px #fff; /* biraz parlaklık */
 }
 
 nav ul {
