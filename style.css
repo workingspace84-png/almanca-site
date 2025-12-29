@@ -12,6 +12,7 @@ header {
   padding: 20px;
   background-color: #111;
   border-bottom: 1px solid #444;
+  position: relative; /* hamburger menü için */
 }
 
 h1 {
@@ -23,6 +24,35 @@ p {
   margin: 5px 0 0 0;
   font-size: 18px;
   color: #ddd;
+}
+
+/* Hamburger Menü */
+.menu-icon {
+  font-size: 30px;
+  cursor: pointer;
+  color: #fff;
+  margin: 10px 0;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+  text-align: center;
+}
+
+nav ul li {
+  margin: 5px 0;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #1abc9c;
+  font-size: 18px;
+}
+
+nav.hidden {
+  display: none;
 }
 
 /* Konu kutucukları */
