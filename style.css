@@ -33,7 +33,7 @@ p {
 .menu-icon {
   font-size: 50px;       /* daha büyük */
   cursor: pointer;
-  color: #fff !important; /* kesin beyaz yapmak için !important */
+  color: #fff ; /* kesin beyaz yapmak için !important */
   font-weight: bold;      /* daha belirgin */
   margin-left: auto;      /* sağa itmek için */
   margin-right: 15px;     /* sağdan boşluk */
