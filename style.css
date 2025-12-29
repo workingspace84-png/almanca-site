@@ -31,10 +31,11 @@ p {
 
 /* Hamburger Menü */
 .menu-icon {
-  font-size: 36px;  /* ikon büyüklüğü */
+  font-size: 36px;       /* ikon büyüklüğü */
   cursor: pointer;
-  color: #1abc9c;   /* daha belirgin turkuaz renk */
-  margin: 0 15px;   /* sağdan soldan boşluk */
+  color: #1abc9c;        /* daha belirgin turkuaz renk */
+  margin-left: auto;      /* sağa itmek için ekledik */
+  margin-right: 15px;     /* sağdan boşluk */
 }
 
 nav ul {
