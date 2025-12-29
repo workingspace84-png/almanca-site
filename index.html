@@ -4,6 +4,49 @@
   <meta charset="UTF-8">
   <title>Mein Deutsch Study Hall</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Header ve hamburger menü için gerekli CSS */
+    header {
+      display: flex;
+      justify-content: space-between; /* başlık sola, menü sağa */
+      align-items: center;
+      padding: 20px;
+      background-color: #111;
+      border-bottom: 1px solid #444;
+    }
+
+    h1 {
+      margin: 0;
+      color: #fff;
+    }
+
+    .menu-icon {
+      font-size: 40px;        /* ikon büyüklüğü */
+      cursor: pointer;
+      color: #1abc9c;         /* turkuaz */
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0 0 0;
+      text-align: center;
+    }
+
+    nav ul li {
+      margin: 5px 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #1abc9c;
+      font-size: 18px;
+    }
+
+    nav.hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 <header> 
@@ -18,25 +61,26 @@
   </nav>
 </header>
 
-  <main>
-    <div class="themen-container">
-      <div class="thema"><h2>Verben</h2><ul><li><a href="#">Übungen</a></li></ul></div>
-      <div class="thema"><h2>Nomen und Artikel</h2><ul><li><a href="#">Übungen</a></li></ul></div>
-      <div class="thema"><h2>Adjektive</h2><ul><li><a href="#">Übungen</a></li></ul></div>
-      <div class="thema"><h2>Pronomen</h2><ul><li><a href="#">Übungen</a></li></ul></div>
-      <div class="thema"><h2>Präpositionen</h2><ul><li><a href="#">Übungen</a></li></ul></div>
-      <div class="thema"><h2>Fragen</h2><ul><li><a href="#">Übungen</a></li></ul></div>
-      <div class="thema"><h2>Satzstellung</h2><ul><li><a href="#">Übungen</a></li></ul></div>
-      <div class="thema"><h2>Konjunktionen</h2><ul><li><a href="#">Übungen</a></li></ul></div>
-      <div class="thema"><h2>Adverbien</h2><ul><li><a href="#">Übungen</a></li></ul></div>
-      <div class="thema"><h2>Zahlen</h2><ul><li><a href="#">Übungen</a></li></ul></div>
-    </div>
-  </main>
+<main>
+  <div class="themen-container">
+    <div class="thema"><h2>Verben</h2><ul><li><a href="#">Übungen</a></li></ul></div>
+    <div class="thema"><h2>Nomen und Artikel</h2><ul><li><a href="#">Übungen</a></li></ul></div>
+    <div class="thema"><h2>Adjektive</h2><ul><li><a href="#">Übungen</a></li></ul></div>
+    <div class="thema"><h2>Pronomen</h2><ul><li><a href="#">Übungen</a></li></ul></div>
+    <div class="thema"><h2>Präpositionen</h2><ul><li><a href="#">Übungen</a></li></ul></div>
+    <div class="thema"><h2>Fragen</h2><ul><li><a href="#">Übungen</a></li></ul></div>
+    <div class="thema"><h2>Satzstellung</h2><ul><li><a href="#">Übungen</a></li></ul></div>
+    <div class="thema"><h2>Konjunktionen</h2><ul><li><a href="#">Übungen</a></li></ul></div>
+    <div class="thema"><h2>Adverbien</h2><ul><li><a href="#">Übungen</a></li></ul></div>
+    <div class="thema"><h2>Zahlen</h2><ul><li><a href="#">Übungen</a></li></ul></div>
+  </div>
+</main>
 
-  <footer>
-    <p>&copy; 2025 Mein Deutsch Study Hall</p>
-  </footer>
-  <script>
+<footer>
+  <p>&copy; 2025 Mein Deutsch Study Hall</p>
+</footer>
+
+<script>
 function toggleMenu() {
   const menu = document.getElementById('menu');
   menu.classList.toggle('hidden');
