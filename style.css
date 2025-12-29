@@ -8,11 +8,14 @@ body {
 
 /* Header */
 header {
-  text-align: center;
+  display: flex;                  /* başlık ve menü yan yana */
+  justify-content: space-between; /* başlık sola, menü sağa */
+  align-items: center;            /* dikey ortala */
   padding: 20px;
   background-color: #111;
   border-bottom: 1px solid #444;
-  position: relative; /* hamburger menü için */
+  position: relative;
+  text-align: left;               /* flex ile sola hizalamak için */
 }
 
 h1 {
@@ -28,10 +31,10 @@ p {
 
 /* Hamburger Menü */
 .menu-icon {
-  font-size: 30px;
+  font-size: 36px;  /* ikon büyüklüğü */
   cursor: pointer;
-  color: #fff;
-  margin: 10px 0;
+  color: #1abc9c;   /* daha belirgin turkuaz renk */
+  margin: 0 15px;   /* sağdan soldan boşluk */
 }
 
 nav ul {
