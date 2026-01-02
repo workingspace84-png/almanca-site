@@ -1,71 +1,48 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Präpositionen Übung</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../style.css">
+<meta charset="UTF-8">
+<title>Präpositionen Übung</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
 <div class="exercise-wrapper">
-  <div class="exercise-container">
+<div class="exercise-container">
 
-    <h2>Präpositionen Übung</h2>
+<h2>Präpositionen Übung</h2>
 
-    <p id="question">Yükleniyor...</p>
+<p id="question">Yükleniyor...</p>
 
-    <input type="text" id="answerInput" placeholder="Cevabını yaz" autocomplete="off">
+<input type="text" id="answerInput" placeholder="Cevabını yaz" autocomplete="off">
 
-    <div class="special-chars">
-      <button type="button" onclick="insertChar('ü')">ü</button>
-      <button type="button" onclick="insertChar('ö')">ö</button>
-      <button type="button" onclick="insertChar('ä')">ä</button>
-      <button type="button" onclick="insertChar('ß')">ß</button>
-    </div>
+<div class="special-chars">
+<button type="button" onclick="insertChar('ü')">ü</button>
+<button type="button" onclick="insertChar('ö')">ö</button>
+<button type="button" onclick="insertChar('ä')">ä</button>
+<button type="button" onclick="insertChar('ß')">ß</button>
+</div>
 
-    <button id="submitBtn">Cevabı Kontrol Et</button>
+<button id="submitBtn">Cevabı Kontrol Et</button>
 
-    <p id="feedback"></p>
-    <p id="score"></p>
+<p id="feedback"></p>
+<p id="score"></p>
 
-  </div>
+</div>
 </div>
 
 <script src="../script.js"></script>
-  <script>
-const input = document.getElementById('answerInput');
-const submitBtn = document.getElementById('submitBtn');
-
-// Enter tuşunu engelle
-input.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault(); // Enter ile cevabı göndermeyi durdur
-  }
-});
-
-// Bu kısım zaten senin özel karakter kodun
-function insertChar(char) {
-  const input = document.getElementById('answerInput');
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  const text = input.value;
-  input.value = text.slice(0, start) + char + text.slice(end);
-  input.focus();
-  input.setSelectionRange(start + 1, start + 1);
-}
-</script>
-
 
 <script>
 function insertChar(char) {
-  const input = document.getElementById('answerInput');
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  const text = input.value;
-  input.value = text.slice(0, start) + char + text.slice(end);
-  input.focus();
-  input.setSelectionRange(start + 1, start + 1);
+const input = document.getElementById('answerInput');
+const start = input.selectionStart;
+const end = input.selectionEnd;
+const text = input.value;
+input.value = text.slice(0, start) + char + text.slice(end);
+input.focus();
+input.setSelectionRange(start + 1, start + 1);
 }
 </script>
 
