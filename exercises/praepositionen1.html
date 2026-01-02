@@ -1,27 +1,29 @@
-<h2>Präpositionen Übung</h2>
+<div class="exercise-wrapper">
+  <div class="exercise-container">
 
-<!-- Soru alanı -->
-<p id="question">Yükleniyor...</p>
+    <h2>Präpositionen Übung</h2>
 
-<!-- Cevap inputu -->
-<input type="text" id="answerInput" placeholder="Cevabını yaz">
+    <p id="question">Yükleniyor...</p>
 
-<!-- Özel karakterler -->
-<div class="special-chars">
-  <button type="button" onclick="insertChar('ü')">ü</button>
-  <button type="button" onclick="insertChar('ö')">ö</button>
-  <button type="button" onclick="insertChar('ä')">ä</button>
-  <button type="button" onclick="insertChar('ß')">ß</button>
+    <input type="text" id="answerInput" placeholder="Cevabını yaz">
+
+    <div class="special-chars">
+      <button type="button" onclick="insertChar('ü')">ü</button>
+      <button type="button" onclick="insertChar('ö')">ö</button>
+      <button type="button" onclick="insertChar('ä')">ä</button>
+      <button type="button" onclick="insertChar('ß')">ß</button>
+    </div>
+
+    <button id="submitBtn">Cevabı Kontrol Et</button>
+
+    <p id="feedback"></p>
+    <p id="score"></p>
+
+  </div>
 </div>
 
-<!-- Cevabı kontrol et butonu -->
-<button id="submitBtn">Cevabı Kontrol Et</button>
+<script src="../script.js"></script>
 
-<!-- Feedback ve skor alanları -->
-<p id="feedback"></p>
-<p id="score"></p>
-
-<!-- Özel karakter ekleme fonksiyonu -->
 <script>
 function insertChar(char) {
   const input = document.getElementById('answerInput');
@@ -33,6 +35,3 @@ function insertChar(char) {
   input.setSelectionRange(start + 1, start + 1);
 }
 </script>
-
-<!-- Mevcut JS dosyan -->
-<script src="../script.js"></script>
