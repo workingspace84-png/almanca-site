@@ -1,5 +1,4 @@
 [
-  {"sentence": "Ich helfe ___ Lehrer.", "answer": "dem", "hint": "Dativ + maskulin"},
-  {"sentence": "Er geht ___ Schule.", "answer": "zur", "hint": "Dativ + feminin"}
+  {"sentence": "_____ gestern habe ich Kopfschmerzen.<br><i>I have had a headache since yesterday.</i>", "answer": "seit", "hint": "Dativ + zaman ifadesi"},
+  {"sentence": "Ich gehe ___ Schule.", "answer": "zur", "hint": "Dativ + feminin"}
 ]
-
