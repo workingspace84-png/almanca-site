@@ -1,9 +1,38 @@
 <h2>Präpositionen Übung</h2>
+
+<!-- Soru alanı -->
 <p id="question">Yükleniyor...</p>
+
+<!-- Cevap inputu -->
 <input type="text" id="answerInput" placeholder="Cevabını yaz">
+
+<!-- Özel karakterler -->
+<div class="special-chars">
+  <button type="button" onclick="insertChar('ü')">ü</button>
+  <button type="button" onclick="insertChar('ö')">ö</button>
+  <button type="button" onclick="insertChar('ä')">ä</button>
+  <button type="button" onclick="insertChar('ß')">ß</button>
+</div>
+
+<!-- Cevabı kontrol et butonu -->
 <button id="submitBtn">Cevabı Kontrol Et</button>
+
+<!-- Feedback ve skor alanları -->
 <p id="feedback"></p>
 <p id="score"></p>
 
-<script src="../script.js"></script>
+<!-- Özel karakter ekleme fonksiyonu -->
+<script>
+function insertChar(char) {
+  const input = document.getElementById('answerInput');
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  const text = input.value;
+  input.value = text.slice(0, start) + char + text.slice(end);
+  input.focus();
+  input.setSelectionRange(start + 1, start + 1);
+}
+</script>
 
+<!-- Mevcut JS dosyan -->
+<script src="../script.js"></script>
