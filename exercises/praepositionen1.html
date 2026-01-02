@@ -1,4 +1,12 @@
-<link rel="stylesheet" href="../style.css">
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Präpositionen Übung</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
 <div class="exercise-wrapper">
   <div class="exercise-container">
@@ -7,7 +15,7 @@
 
     <p id="question">Yükleniyor...</p>
 
-    <input type="text" id="answerInput" placeholder="Cevabını yaz">
+    <input type="text" id="answerInput" placeholder="Cevabını yaz" autocomplete="off">
 
     <div class="special-chars">
       <button type="button" onclick="insertChar('ü')">ü</button>
@@ -37,3 +45,6 @@ function insertChar(char) {
   input.setSelectionRange(start + 1, start + 1);
 }
 </script>
+
+</body>
+</html>
