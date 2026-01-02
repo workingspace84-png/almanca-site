@@ -3,7 +3,7 @@ let score = 0;
 let questions = [];
 
 // JSON dosyasını çek
-fetch('../data/praepositionen.json')
+fetch('praepositionen.json')
   .then(res => res.json())
   .then(data => {
     questions = data;
