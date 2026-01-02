@@ -115,3 +115,121 @@ footer p {
   margin: 0;
   color: #888;
 }
+
+/* ============================= */
+/* ALIŞTIRMA SAYFASI STİLLERİ */
+/* ============================= */
+
+.exercise-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 15px;
+}
+
+.exercise-container {
+  background-color: #111;
+  border: 1px solid #444;
+  border-radius: 10px;
+  padding: 25px 20px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Başlık */
+.exercise-container h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+/* Soru */
+#question {
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  color: #ddd;
+}
+
+/* Input */
+#answerInput {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* Submit butonu */
+#submitBtn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #1abc9c;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#submitBtn:hover {
+  background-color: #16a085;
+}
+
+/* Özel karakterler */
+.special-chars {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.special-chars button {
+  padding: 8px 12px;
+  font-size: 16px;
+  background-color: #222;
+  color: #1abc9c;
+  border: 1px solid #1abc9c;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.special-chars button:hover {
+  background-color: #1abc9c;
+  color: #000;
+}
+
+/* Feedback */
+#feedback {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Skor */
+#score {
+  margin-top: 10px;
+  text-align: right;
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* Tablet ve üstü */
+@media (min-width: 768px) {
+  .exercise-container {
+    padding: 35px 30px;
+  }
+
+  #question {
+    font-size: 20px;
+  }
+}
+
