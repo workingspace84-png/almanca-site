@@ -36,15 +36,24 @@
 
 <script>
 function insertChar(char) {
-const input = document.getElementById('answerInput');
-const start = input.selectionStart;
-const end = input.selectionEnd;
-const text = input.value;
-input.value = text.slice(0, start) + char + text.slice(end);
-input.focus();
-input.setSelectionRange(start + 1, start + 1);
+  const input = document.getElementById('answerInput');
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  const text = input.value;
+  input.value = text.slice(0, start) + char + text.slice(end);
+  input.focus();
+  input.setSelectionRange(start + 1, start + 1);
 }
+
+/* ENTER TUŞU = CEVABI GÖNDER */
+document.getElementById("answerInput").addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("submitBtn").click();
+  }
+});
 </script>
+
 
 </body>
 </html>
