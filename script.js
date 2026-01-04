@@ -50,3 +50,19 @@ document.getElementById('submitBtn').addEventListener('click', () => {
   const scoreDiv = document.getElementById('score');
   scoreDiv.innerText = `Skor: ${score}/${questions.length}`;
 });
+
+// Dinamik header yükleme
+fetch('../header.html')   // header.html dosyanın yolu, alıştırma sayfasına göre ayarla
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+
+    // Hamburger menüyü aktif et
+    const menuIcon = document.querySelector('#header-placeholder .menu-icon');
+    const menu = document.querySelector('#header-placeholder #menu');
+
+    menuIcon.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  });
+
