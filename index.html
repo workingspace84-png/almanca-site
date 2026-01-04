@@ -6,17 +6,9 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header> 
-  <h1>Mein Deutsch Study Hall</h1> 
-  <!-- Hamburger Menü -->
-  <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
-  <nav id="menu" class="hidden">
-    <ul>
-      <li><a href="index.html">Ana Sayfa</a></li>
-      <li><a href="hakkinda.html">Hakkında</a></li>
-    </ul>
-  </nav>
-</header>
+
+<!-- HEADER PLACEHOLDER -->
+<div id="header-placeholder"></div>
 
 <main>
   <div class="themen-container">
@@ -38,10 +30,23 @@
 </footer>
 
 <script>
-function toggleMenu() {
-  const menu = document.getElementById('menu');
-  menu.classList.toggle('hidden');
-}
+/* -------------------- */
+/* HEADER DİNAMİK YÜKLEME */
+/* -------------------- */
+fetch('header.html') // header.html dosyanın yolu, index.html ile aynı dizindeyse sadece 'header.html'
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+    
+    // Hamburger menü toggle fonksiyonu header yüklenince aktif olsun
+    const menuIcon = document.querySelector('#header-placeholder .menu-icon');
+    const menu = document.querySelector('#header-placeholder #menu');
+    menuIcon.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  })
+  .catch(err => console.error('Header yüklenirken hata oluştu:', err));
 </script>
+
 </body>
 </html>
