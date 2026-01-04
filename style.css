@@ -1,59 +1,86 @@
-/* ------------------------------ */
-/* Genel ayarlar (Estetik tonlar) */
-/* ------------------------------ */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background-color: #121212; /* saf siyah yerine hafif kirli siyah */
-  color: #eee;               /* tamamen beyaz değil, göz yormayan ton */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* ============================== */
+/* GENEL AYARLAR – AKADEMİK */
+/* ============================== */
+
+html {
+  font-size: 15px;
 }
 
-/* Header */
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Arial, sans-serif;
+  margin: 0;
+  background-color: #121212;
+  color: #eee;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ============================== */
+/* HEADER */
+/* ============================== */
+
 header {
-  display: flex;                 
-  justify-content: space-between; 
-  align-items: center;            
-  padding: 20px;
-  background-color: #1a1a1a;      /* biraz açık siyah, kontrast */
-  border-bottom: 1px solid #333;  
-  position: relative;
-  text-align: left;               
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
 }
 
 h1 {
   margin: 0;
-  color: #f5f5f5;                 /* saf beyaz değil, hafif gri */
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #f5f5f5;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 p {
-  margin: 5px 0 0 0;
-  font-size: 18px;
-  color: #ccc;                     /* daha estetik yazı rengi */
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #ccc;
 }
 
-/* Hamburger Menü */
+/* ============================== */
+/* MENÜ */
+/* ============================== */
+
 .menu-icon {
-  font-size: 50px;       
+  font-size: 42px;
   cursor: pointer;
-  color: #f5f5f5; 
-  font-weight: bold;      
-  margin-left: auto;      
-  margin-right: 15px;     
-  text-shadow: 0 0 2px #fff; 
+  color: #f5f5f5;
+  margin-left: auto;
+  margin-right: 10px;
 }
 
 nav ul li a {
   text-decoration: none;
-  color: #1abc9c; 
-  font-size: 18px;
+  color: #1abc9c;
+  font-size: 0.95rem;
 }
 
-/* Konu kutucukları */
+/* ============================== */
+/* KONU KUTULARI */
+/* ============================== */
+
 .thema {
   border: 1px solid #333;
-  padding: 20px;
+  padding: 16px;
   width: 200px;
-  background-color: #1a1a1a; 
+  background-color: #1a1a1a;
   border-radius: 8px;
   text-align: center;
 }
@@ -64,126 +91,161 @@ nav ul li a {
 
 .thema a {
   color: #1abc9c;
+  font-size: 0.95rem;
 }
 
-/* Footer */
+/* ============================== */
+/* FOOTER */
+/* ============================== */
+
 footer {
   text-align: center;
-  padding: 15px;
+  padding: 14px;
   background-color: #1a1a1a;
   border-top: 1px solid #333;
 }
 
 footer p {
   margin: 0;
+  font-size: 0.9rem;
   color: #aaa;
 }
 
-/* ------------------------------ */
-/* Alıştırma sayfası sevimli tasarım (estetik tonlar) */
-/* ------------------------------ */
+/* ============================== */
+/* EGZERSİZ ALANI */
+/* ============================== */
 
 .exercise-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 35px;
 }
 
 .exercise-container {
-  background-color: #1a1a1a;           /* saf siyah değil, daha estetik */
+  background-color: #1a1a1a;
   border: 1px solid #333;
-  padding: 30px 25px;
+  padding: 24px 22px;
   width: 100%;
   max-width: 500px;
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  font-size: 0.95rem;
 }
 
-#question {
-  font-size: 20px;
-  margin-bottom: 20px;
-  color: #e0e0e0;                     /* saf beyaz değil, göz yormayan ton */
+.question-container p {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #e0e0e0;
 }
 
-#answerInput, .input-box {
+.question-container p i {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+/* ============================== */
+/* INPUT */
+/* ============================== */
+
+#answerInput,
+.input-box {
   width: 90%;
-  padding: 12px 15px;
-  font-size: 18px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
   border-radius: 10px;
   border: 1px solid #555;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
-  background-color: #222;             /* input kutusu koyu ama estetik */
+  background-color: #222;
   color: #eee;
   margin-bottom: 10px;
-  transition: all 0.2s ease-in-out;
 }
 
-#answerInput:focus, .input-box:focus {
+#answerInput:focus,
+.input-box:focus {
   border-color: #1abc9c;
-  box-shadow: 0 0 8px rgba(26,188,156,0.5);
   outline: none;
 }
 
+/* ============================== */
+/* ÖZEL KARAKTER BUTONLARI */
+/* ============================== */
+
 .special-chars button {
   margin: 4px 3px;
-  padding: 8px 12px;
-  font-size: 16px;
+  padding: 7px 11px;
+  font-size: 0.9rem;
   cursor: pointer;
   border-radius: 8px;
   border: 1px solid #555;
   background-color: #222;
   color: #eee;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
-  transition: all 0.2s;
 }
 
 .special-chars button:hover {
   background-color: #1abc9c;
   color: #111;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.5);
 }
 
-#submitBtn, .submit-button {
-  margin-top: 15px;
-  padding: 12px 25px;
-  font-size: 16px;
+/* ============================== */
+/* SUBMIT */
+/* ============================== */
+
+.submit-button,
+#submitBtn {
+  margin-top: 14px;
+  padding: 10px 22px;
+  font-size: 0.9rem;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   background-color: #1abc9c;
   color: #111;
-  font-weight: bold;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-  transition: all 0.2s;
+  font-weight: 600;
 }
 
-#submitBtn:hover, .submit-button:hover {
+.submit-button:hover,
+#submitBtn:hover {
   background-color: #16a085;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
 }
 
-#feedback, #score {
-  margin-top: 10px;
-  font-size: 16px;
-  color: #e0e0e0;
-}
+/* ============================== */
+/* YARDIM BUTONU */
+/* ============================== */
 
 .guidance-help-button {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    background-color: #1abc9c;
-    color: #111;
-    font-weight: bold;
-    font-size: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    cursor: pointer;
-    transition: all 0.2s;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background-color: #1abc9c;
+  color: #111;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
 }
 
-.guidance-help-button:hover {
-    background-color: #16a085;
-    transform: scale(1.1);
+/* ============================== */
+/* MOBİL */
+/* ============================== */
+
+@media (max-width: 600px) {
+  html {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+  }
+
+  .exercise-container {
+    padding: 20px 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  html {
+    font-size: 13.5px;
+  }
 }
