@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>Präpositionen Übung</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8">
+  <title>Exercise 1 – Prepositions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
+<!-- HEADER -->
+<header class="exercise-header">
+  <h1>German Prepositions</h1>
+</header>
+
+<!-- EGZERSİZ -->
 <div class="exercise-wrapper">
-<div class="exercise-container">
+  <div class="exercise-container">
 
-<h2>Präpositionen Übung</h2>
+    <h2 class="exercise-title">Exercise 1</h2>
 
-<p id="question">Yükleniyor...</p>
+    <div class="instruction-container">
+      <p>Fill in the sentence using the correct German preposition.</p>
+    </div>
 
-<input type="text" id="answerInput" placeholder="Cevabını yaz" autocomplete="off">
+    <p id="question">Yükleniyor...</p>
 
-<div class="special-chars">
-<button type="button" onclick="insertChar('ü')">ü</button>
-<button type="button" onclick="insertChar('ö')">ö</button>
-<button type="button" onclick="insertChar('ä')">ä</button>
-<button type="button" onclick="insertChar('ß')">ß</button>
-</div>
+    <input type="text" id="answerInput" placeholder="Type your answer" autocomplete="off">
 
-<button id="submitBtn">Cevabı Kontrol Et</button>
+    <div class="special-chars">
+      <button type="button" onclick="insertChar('ü')">ü</button>
+      <button type="button" onclick="insertChar('ö')">ö</button>
+      <button type="button" onclick="insertChar('ä')">ä</button>
+      <button type="button" onclick="insertChar('ß')">ß</button>
+    </div>
 
-<p id="feedback"></p>
-<p id="score"></p>
+    <button id="submitBtn">Check Answer</button>
 
-</div>
+    <p id="feedback"></p>
+    <p id="score"></p>
+
+  </div>
 </div>
 
 <script src="../script.js"></script>
@@ -45,7 +55,6 @@ function insertChar(char) {
   input.setSelectionRange(start + 1, start + 1);
 }
 
-/* ENTER TUŞU = CEVABI GÖNDER */
 document.getElementById("answerInput").addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -53,7 +62,6 @@ document.getElementById("answerInput").addEventListener("keydown", function (eve
   }
 });
 </script>
-
 
 </body>
 </html>
