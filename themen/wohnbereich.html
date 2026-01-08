@@ -4,41 +4,9 @@
   <meta charset="UTF-8">
   <title>Wohnbereich</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/almanca-site/style.css">
-  <script src="/almanca-site/script.js" defer></script>
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
 <!-- HEADER -->
 <div id="header-placeholder"></div>
-
-<main>
-  <h1>Wohnbereich</h1>
-  <p>Hier kommt der Inhalt für das Thema Wohnbereich.</p>
-</main>
-
-<!-- FOOTER -->
-<div id="footer-placeholder"></div>
-
-<script>
-  // HEADER yükleme
-  fetch('/almanca-site/header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('header-placeholder').innerHTML = data;
-
-      // Hamburger menü toggle
-      const menuIcon = document.querySelector('#header-placeholder .menu-icon');
-      const menu = document.querySelector('#header-placeholder #menu');
-      if (menuIcon && menu) {
-        menuIcon.addEventListener('click', () => {
-          menu.classList.toggle('hidden');
-        });
-      }
-    })
-    .catch(err => console.error('Header yüklenirken hata oluştu:', err));
-
-  // FOOTER yükleme
-  fetch('/almanca-site/footer.html')
-    .then(response => response.text())
-    .then(data =
