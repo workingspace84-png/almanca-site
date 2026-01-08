@@ -3,29 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <title>Mein Deutsch Study Hall</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="header-placeholder"></div>
 
 <main>
-  <!-- içerik aynı -->
+  <!-- içerik -->
 </main>
 
 <footer>
   <p>&copy; 2025 Mein Deutsch Study Hall</p>
 </footer>
 
+<!-- HEADER -->
 <script>
-fetch('/header.html')
+fetch('header.html')
   .then(res => res.text())
-  .then(data => {
-    document.getElementById('header-placeholder').innerHTML = data;
-  });
+  .then(data => document.getElementById('header-placeholder').innerHTML = data);
 </script>
-
-<script src="/js/header.js"></script>
+<script src="js/header.js"></script>
 
 </body>
 </html>
