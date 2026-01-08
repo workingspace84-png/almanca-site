@@ -1,3 +1,5 @@
+const submitBtn = document.getElementById('submitBtn');
+
 let currentQuestion = 0;
 let score = 0;
 let questions = [];
@@ -29,7 +31,8 @@ feedback.innerText = `Skorunuz: ${score}/${questions.length}`;
 }
 }
 
-document.getElementById('submitBtn').addEventListener('click', () => {
+if (submitBtn) {
+  submitBtn.addEventListener('click', () => {
 const input = document.getElementById('answerInput');
 const userAnswer = input.value.trim().toLowerCase();
 const correctAnswer = questions[currentQuestion].answer.toLowerCase();
@@ -63,5 +66,6 @@ const menu = document.querySelector('#header-placeholder #menu');
 
 menuIcon.addEventListener('click', () => {
 menu.classList.toggle('hidden');
+});
 });
 });
