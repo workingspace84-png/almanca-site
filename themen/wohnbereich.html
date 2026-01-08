@@ -24,37 +24,8 @@
 <!-- FOOTER -->
 <div id="footer-placeholder"></div>
 
-<!-- SCRIPT -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-
-  // Dinamik header yükle
-  fetch('../header.html')
-    .then(response => response.text())
-    .then(data => {
-      const headerPlaceholder = document.getElementById('header-placeholder');
-      if(headerPlaceholder) headerPlaceholder.innerHTML = data;
-
-      // Hamburger menüyü aktif et
-      const menuIcon = document.querySelector('#header-placeholder .menu-icon');
-      const menu = document.querySelector('#header-placeholder #menu');
-      if(menuIcon && menu) {
-        menuIcon.addEventListener('click', () => {
-          menu.classList.toggle('hidden');
-        });
-      }
-    });
-
-  // Dinamik footer yükle
-  fetch('../footer.html')
-    .then(response => response.text())
-    .then(data => {
-      const footerPlaceholder = document.getElementById('footer-placeholder');
-      if(footerPlaceholder) footerPlaceholder.innerHTML = data;
-    });
-
-});
-</script>
+<!-- TEK SCRIPT -->
+<script src="../script.js"></script>
 
 </body>
 </html>
