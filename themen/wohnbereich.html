@@ -12,18 +12,52 @@
 <div id="header-placeholder"></div>
 
 <!-- ANA İÇERİK -->
-<div class="content-wrapper">
+<main class="content-wrapper">
   <div class="content-container">
-
     <h2 class="page-title">Neue Seite</h2>
     <p>Bu sayfa şu an boş. Buraya istediğiniz içerikleri ekleyebilirsiniz.</p>
 
+    <!-- Örnek linkler -->
+    <ul>
+      <li><a href="wohnbereich.html">Wohnbereich</a></li>
+      <li><a href="person-soziales.html">Person & Soziales</a></li>
+      <li><a href="arbeit-beruf.html">Arbeit / Beruf</a></li>
+    </ul>
+
   </div>
-</div>
+</main>
 
 <!-- FOOTER -->
-<div id="footer-placeholder"></div>
+<footer>
+  <p>&copy; 2025 Mein Deutsch Study Hall</p>
+</footer>
 
+<!-- HEADER FETCH (sessiz, hata göstermez) -->
+<script>
+fetch('../header.html')
+  .then(res => res.text())
+  .then(data => {
+    const headerContainer = document.getElementById('header-placeholder');
+    if (headerContainer) {
+      headerContainer.innerHTML = data;
+
+      // Menü toggle
+      const menuIcon = headerContainer.querySelector('.menu-icon');
+      const menu = headerContainer.querySelector('#menu');
+      if (menuIcon && menu) {
+        menuIcon.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+        });
+      }
+    }
+  })
+  .catch(() => {
+    // Hata olursa sessiz geç, kullanıcı görmez
+  });
+</script>
+
+<!-- HEADER JS -->
+<script src="../js/header.js"></script>
 
 </body>
 </html>
