@@ -65,6 +65,7 @@ if(currentPath.includes('/exercises/') || currentPath.includes('/themen/')) {
   footerPath = 'footer.html';
 }
 
+document.addEventListener('DOMContentLoaded', () => {
 // Header yükle
 fetch(headerPath)
   .then(response => response.text())
