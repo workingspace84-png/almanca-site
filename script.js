@@ -2,13 +2,15 @@ let currentQuestion = 0;
 let score = 0;
 let questions = [];
 
-// JSON dosyasını çek
-fetch('praepositionen.json')
-  .then(res => res.json())
-  .then(data => {
-    questions = data;
-    showQuestion();
-  });
+// ===== EGZERSİZ VARSA ÇALIŞSIN =====
+if (document.getElementById('question')) {
+  fetch('praepositionen.json')
+    .then(res => res.json())
+    .then(data => {
+      questions = data;
+      showQuestion();
+    });
+}
 
 function showQuestion() {
   const questionEl = document.getElementById('question');
@@ -16,7 +18,9 @@ function showQuestion() {
   const feedback = document.getElementById('feedback');
   const scoreDiv = document.getElementById('score');
 
-  if(currentQuestion < questions.length) {
+  if (!questionEl) return;
+
+  if (currentQuestion < questions.length) {
     questionEl.innerHTML = questions[currentQuestion].sentence;
     input.value = '';
     feedback.innerText = '';
@@ -29,63 +33,38 @@ function showQuestion() {
   }
 }
 
-document.getElementById('submitBtn').addEventListener('click', () => {
-  const input = document.getElementById('answerInput');
-  const userAnswer = input.value.trim().toLowerCase();
-  const correctAnswer = questions[currentQuestion].answer.toLowerCase();
-  const feedback = document.getElementById('feedback');
-
-  if(userAnswer === correctAnswer) {
-    feedback.innerText = "Richtig! 🎉";
-    feedback.style.color = "green";
-    score++;
-  } else {
-    feedback.innerText = `Falsch! İpucu: ${questions[currentQuestion].hint}`;
-    feedback.style.color = "red";
-  }
-
-  currentQuestion++;
-  setTimeout(showQuestion, 1000);
-
-  const scoreDiv = document.getElementById('score');
-  scoreDiv.innerText = `Skor: ${score}/${questions.length}`;
-});
-
-// ===== Dinamik header ve footer yükleme =====
-let currentPath = window.location.pathname;
-
-let headerPath, footerPath;
-
-// Eğer sayfa alt klasördeyse '../', ana dizinse direkt
-if(currentPath.includes('/exercises/') || currentPath.includes('/themen/')) {
-  headerPath = '../header.html';
-  footerPath = '../footer.html';
-} else {
-  headerPath = 'header.html';
-  footerPath = 'footer.html';
-}
-
+// ===== HEADER / FOOTER =====
 document.addEventListener('DOMContentLoaded', () => {
-// Header yükle
-fetch(headerPath)
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('header-placeholder').innerHTML = data;
 
-    const menuIcon = document.querySelector('#header-placeholder .menu-icon');
-    const menu = document.querySelector('#header-placeholder #menu');
+  const isSubPage =
+    window.location.pathname.includes('/exercises/') ||
+    window.location.pathname.includes('/themen/');
 
-    if(menuIcon && menu) {
-      menuIcon.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-      });
-    }
-  });
+  const headerPath = isSubPage ? '../header.html' : 'header.html';
+  const footerPath = isSubPage ? '../footer.html' : 'footer.html';
 
-// Footer yükle
-fetch(footerPath)
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('footer-placeholder').innerHTML = data;
-  });
+  // HEADER
+  fetch(headerPath)
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
 
+      const menuIcon = document.querySelector('.menu-icon');
+      const menu = document.getElementById('menu');
+
+      if (menuIcon && menu) {
+        menuIcon.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+        });
+      }
+    });
+
+  // FOOTER
+  fetch(footerPath)
+    .then(res => res.text())
+    .then(html => {
+      const footer = document.getElementById('footer-placeholder');
+      if (footer) footer.innerHTML = html;
+    });
+
+});
