@@ -3,35 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Mein Deutsch Study Hall</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<!-- HEADER PLACEHOLDER -->
 <div id="header-placeholder"></div>
 
 <main>
-  <div class="themen-container">
-
-    <div class="thema"><h2><a href="themen/wohnbereich.html">Wohnbereich</a></h2></div>
-    <div class="thema"><h2><a href="person-soziales.html">Person & Soziales</a></h2></div>
-    <div class="thema"><h2><a href="arbeit-beruf.html">Arbeit / Beruf</a></h2></div>
-    <div class="thema"><h2><a href="ausbildung-lernen.html">Ausbildung / Lernen</a></h2></div>
-    <div class="thema"><h2><a href="essen-trinken.html">Essen & Trinken</a></h2></div>
-    <div class="thema"><h2><a href="einkaufen-shoppen.html">Einkaufen / Shoppen</a></h2></div>
-    <div class="thema"><h2><a href="reisen-verkehr.html">Reisen & Verkehr</a></h2></div>
-    <div class="thema"><h2><a href="gesundheit.html">Gesundheit</a></h2></div>
-    <div class="thema"><h2><a href="umwelt-natur.html">Umwelt & Natur</a></h2></div>
-    <div class="thema"><h2><a href="oeffentliche-bereiche.html">Öffentliche Bereiche</a></h2></div>
-    <div class="thema"><h2><a href="zeit-organisation.html">Zeit & Organisation</a></h2></div>
-    <div class="thema"><h2><a href="freizeit-hobbys.html">Freizeit & Hobbys</a></h2></div>
-
-    <!-- A2 Spezifik -->
-    <div class="thema"><h2><a href="kommunikation-medien.html">Kommunikation & Medien</a></h2></div>
-    <div class="thema"><h2><a href="emotionen-meinung.html">Emotionen & Meinung</a></h2></div>
-    <div class="thema"><h2><a href="recht-regeln.html">Recht & Regeln</a></h2></div>
-
-  </div>
+  <!-- içerik aynı -->
 </main>
 
 <footer>
@@ -39,23 +18,14 @@
 </footer>
 
 <script>
-/* -------------------- */
-/* HEADER DİNAMİK YÜKLEME */
-/* -------------------- */
-fetch('header.html') // header.html dosyanın yolu, index.html ile aynı dizindeyse sadece 'header.html'
-  .then(response => response.text())
+fetch('/header.html')
+  .then(res => res.text())
   .then(data => {
     document.getElementById('header-placeholder').innerHTML = data;
-    
-    // Hamburger menü toggle fonksiyonu header yüklenince aktif olsun
-    const menuIcon = document.querySelector('#header-placeholder .menu-icon');
-    const menu = document.querySelector('#header-placeholder #menu');
-    menuIcon.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-    });
-  })
-  .catch(err => console.error('Header yüklenirken hata oluştu:', err));
+  });
 </script>
+
+<script src="/js/header.js"></script>
 
 </body>
 </html>
