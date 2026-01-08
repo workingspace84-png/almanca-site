@@ -51,18 +51,40 @@ document.getElementById('submitBtn').addEventListener('click', () => {
   scoreDiv.innerText = `Skor: ${score}/${questions.length}`;
 });
 
-// Dinamik header yükleme
-fetch('../header.html')   // header.html dosyanın yolu, alıştırma sayfasına göre ayarla
+// ===== Dinamik header ve footer yükleme =====
+let currentPath = window.location.pathname;
+
+let headerPath, footerPath;
+
+// Eğer sayfa alt klasördeyse '../', ana dizinse direkt
+if(currentPath.includes('/exercises/') || currentPath.includes('/themen/')) {
+  headerPath = '../header.html';
+  footerPath = '../footer.html';
+} else {
+  headerPath = 'header.html';
+  footerPath = 'footer.html';
+}
+
+// Header yükle
+fetch(headerPath)
   .then(response => response.text())
   .then(data => {
     document.getElementById('header-placeholder').innerHTML = data;
 
-    // Hamburger menüyü aktif et
     const menuIcon = document.querySelector('#header-placeholder .menu-icon');
     const menu = document.querySelector('#header-placeholder #menu');
 
-    menuIcon.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-    });
+    if(menuIcon && menu) {
+      menuIcon.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+      });
+    }
+  });
+
+// Footer yükle
+fetch(footerPath)
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById('footer-placeholder').innerHTML = data;
   });
 
