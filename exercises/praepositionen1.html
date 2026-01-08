@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Exercise 1 – Prepositions</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
@@ -13,28 +12,26 @@
 <div class="exercise-wrapper">
   <div class="exercise-container">
     <h2 class="exercise-title">Exercise 1</h2>
-
     <p id="question">Yükleniyor...</p>
-
     <input type="text" id="answerInput">
-
     <button id="submitBtn">Check</button>
     <p id="feedback"></p>
     <p id="score"></p>
   </div>
 </div>
 
-<script src="/script.js"></script>
+<footer>
+  <p>&copy; 2025 Mein Deutsch Study Hall</p>
+</footer>
 
+<!-- HEADER -->
 <script>
-fetch('/header.html')
+fetch('../header.html')
   .then(res => res.text())
-  .then(data => {
-    document.getElementById('header-placeholder').innerHTML = data;
-  });
+  .then(data => document.getElementById('header-placeholder').innerHTML = data);
 </script>
-
-<script src="/js/header.js"></script>
+<script src="../js/header.js"></script>
+<script src="../script.js"></script>
 
 </body>
 </html>
