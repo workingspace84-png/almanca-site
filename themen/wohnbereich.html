@@ -20,17 +20,6 @@
 
     <p>Bu sayfa şu an boş. Buraya istediğiniz içerikleri ekleyebilirsiniz.</p>
 
-    <!-- ÖZEL KARAKTERLER BUTONLARI (opsiyonel, istersen kaldırabilirsin) -->
-    <div class="special-chars">
-      <button type="button" onclick="insertChar('ü')">ü</button>
-      <button type="button" onclick="insertChar('ö')">ö</button>
-      <button type="button" onclick="insertChar('ä')">ä</button>
-      <button type="button" onclick="insertChar('ß')">ß</button>
-    </div>
-
-    <!-- Giriş alanı (opsiyonel) -->
-    <input type="text" id="textInput" placeholder="Yazınız..." autocomplete="off">
-
   </div>
 </div>
 
@@ -52,12 +41,6 @@ function insertChar(char) {
   input.setSelectionRange(start + 1, start + 1);
 }
 
-// Enter tuşu ile bir işlem yapmak istersen buraya ekleyebilirsin
-document.getElementById("textInput")?.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    alert("Enter tuşuna basıldı!"); // veya istediğin işlem
-  }
 });
 </script>
 
