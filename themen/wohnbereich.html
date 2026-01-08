@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Wohnbereich</title>
-  <link rel="stylesheet" href="../style.css">
-  <script src="../script.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/almanca-site/style.css">
+  <script src="/almanca-site/script.js" defer></script>
 </head>
 <body>
 
@@ -21,7 +22,7 @@
 
 <script>
   // HEADER yükleme
-  fetch('../header.html')
+  fetch('/almanca-site/header.html')
     .then(response => response.text())
     .then(data => {
       document.getElementById('header-placeholder').innerHTML = data;
@@ -29,7 +30,7 @@
       // Hamburger menü toggle
       const menuIcon = document.querySelector('#header-placeholder .menu-icon');
       const menu = document.querySelector('#header-placeholder #menu');
-      if (menuIcon) {
+      if (menuIcon && menu) {
         menuIcon.addEventListener('click', () => {
           menu.classList.toggle('hidden');
         });
@@ -38,13 +39,6 @@
     .catch(err => console.error('Header yüklenirken hata oluştu:', err));
 
   // FOOTER yükleme
-  fetch('../footer.html')
+  fetch('/almanca-site/footer.html')
     .then(response => response.text())
-    .then(data => {
-      document.getElementById('footer-placeholder').innerHTML = data;
-    })
-    .catch(err => console.error('Footer yüklenirken hata oluştu:', err));
-</script>
-
-</body>
-</html>
+    .then(data =
