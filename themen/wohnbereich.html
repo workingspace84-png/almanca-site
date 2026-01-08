@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Neue Seite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Stil dosyası, yeni sayfa kendi klasöründe olduğundan ../ ile bir üst klasöre çık -->
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -17,7 +16,6 @@
   <div class="content-container">
 
     <h2 class="page-title">Neue Seite</h2>
-
     <p>Bu sayfa şu an boş. Buraya istediğiniz içerikleri ekleyebilirsiniz.</p>
 
   </div>
@@ -26,23 +24,7 @@
 <!-- FOOTER -->
 <div id="footer-placeholder"></div>
 
-<!-- SCRIPT DOSYASI -->
 <script src="../script.js"></script>
-
-<script>
-function insertChar(char) {
-  const input = document.getElementById('textInput');
-  if (!input) return;
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  const text = input.value;
-  input.value = text.slice(0, start) + char + text.slice(end);
-  input.focus();
-  input.setSelectionRange(start + 1, start + 1);
-}
-
-});
-</script>
 
 </body>
 </html>
