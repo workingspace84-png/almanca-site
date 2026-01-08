@@ -4,63 +4,37 @@
   <meta charset="UTF-8">
   <title>Exercise 1 – Prepositions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<!-- HEADER -->
 <div id="header-placeholder"></div>
 
-
-<!-- EGZERSİZ -->
 <div class="exercise-wrapper">
   <div class="exercise-container">
-
     <h2 class="exercise-title">Exercise 1</h2>
-
-    <div class="instruction-container">
-      <p>Fill in the sentence using the correct German preposition.</p>
-    </div>
 
     <p id="question">Yükleniyor...</p>
 
-    <input type="text" id="answerInput" placeholder="Type your answer" autocomplete="off">
+    <input type="text" id="answerInput">
 
-    <div class="special-chars">
-      <button type="button" onclick="insertChar('ü')">ü</button>
-      <button type="button" onclick="insertChar('ö')">ö</button>
-      <button type="button" onclick="insertChar('ä')">ä</button>
-      <button type="button" onclick="insertChar('ß')">ß</button>
-    </div>
-
-    <button id="submitBtn">Check Answer</button>
-
+    <button id="submitBtn">Check</button>
     <p id="feedback"></p>
     <p id="score"></p>
-
   </div>
 </div>
 
-<script src="../script.js"></script>
+<script src="/script.js"></script>
 
 <script>
-function insertChar(char) {
-  const input = document.getElementById('answerInput');
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  const text = input.value;
-  input.value = text.slice(0, start) + char + text.slice(end);
-  input.focus();
-  input.setSelectionRange(start + 1, start + 1);
-}
-
-document.getElementById("answerInput").addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    document.getElementById("submitBtn").click();
-  }
-});
+fetch('/header.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+  });
 </script>
+
+<script src="/js/header.js"></script>
 
 </body>
 </html>
