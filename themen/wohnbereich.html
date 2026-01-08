@@ -1,1 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Wohnbereich</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js" defer></script>
+</head>
+<body>
 
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<main>
+  <h1>Wohnbereich</h1>
+  <p>Hier kommt der Inhalt für das Thema Wohnbereich.</p>
+</main>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>
+
+<script>
+  // HEADER yükleme
+  fetch('../header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Hamburger menü toggle
+      const menuIcon = document.querySelector('#header-placeholder .menu-icon');
+      const menu = document.querySelector('#header-placeholder #menu');
+      if (menuIcon) {
+        menuIcon.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+        });
+      }
+    })
+    .catch(err => console.error('Header yüklenirken hata oluştu:', err));
+
+  // FOOTER yükleme
+  fetch('../footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    })
+    .catch(err => console.error('Footer yüklenirken hata oluştu:', err));
+</script>
+
+</body>
+</html>
