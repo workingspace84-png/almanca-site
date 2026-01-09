@@ -18,6 +18,15 @@
       {{QUESTION}}<br>
       <em>{{TRANSLATION}}</em>
     </p>
+
+    <!-- Özel karakter paneli -->
+    <div id="special-chars">
+      <button type="button" class="char-btn">ä</button>
+      <button type="button" class="char-btn">ö</button>
+      <button type="button" class="char-btn">ü</button>
+      <button type="button" class="char-btn">ß</button>
+    </div>
+
     <input type="text" id="answerInput" placeholder="Antwort hier eingeben...">
     <button id="submitBtn">Check</button>
     <p id="feedback"></p>
@@ -43,9 +52,23 @@ fetch('../header.html')
 <script src="../js/header.js"></script>
 <script src="../script.js"></script>
 
+<!-- ÖZEL KARAKTER PANELİ JS -->
+<script>
+const input = document.getElementById('answerInput');
+document.querySelectorAll('.char-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const char = btn.textContent;
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    input.value = input.value.slice(0, start) + char + input.value.slice(end);
+    input.focus();
+    input.selectionStart = input.selectionEnd = start + 1;
+  });
+});
+</script>
+
 <!-- EXERCISE JS -->
 <script>
-const answerInput = document.getElementById('answerInput');
 const submitBtn = document.getElementById('submitBtn');
 
 answerInput.addEventListener('keydown', function(e) {
@@ -73,6 +96,18 @@ function submitAnswer() {
   answerInput.value = '';
 }
 </script>
+
+<style>
+#special-chars {
+  margin: 10px 0;
+}
+.char-btn {
+  font-size: 18px;
+  margin: 2px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+</style>
 
 </body>
 </html>
