@@ -47,10 +47,9 @@ if (submitBtn) {
       const q = questions[currentQuestion];
       document.getElementById('question').innerHTML = `${q.sentence}<br><em>${q.translation}</em>`;
       input.value = '';
-      feedback.innerHTML = '';
-      explanation.innerText = '';
       scoreDiv.innerText = `Skor: ${score}/${questions.length}`;
       input.focus();
+      // artık feedback veya explanation silinmiyor
     } else {
       document.getElementById('question').innerText = "Bitti 🎉";
       submitBtn.style.display = 'none';
@@ -83,7 +82,7 @@ if (submitBtn) {
     }
 
     currentQuestion++;
-    setTimeout(showQuestion, 1500);
+    showQuestion(); // artık setTimeout yok, feedback kalıcı
   }
 
   // Click ile gönder
