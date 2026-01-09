@@ -1,23 +1,24 @@
 // js/exercises.js
+document.addEventListener('DOMContentLoaded', () => {
 
-const submitBtn = document.getElementById('submitBtn');
-const input = document.getElementById('answerInput');
-const feedback = document.getElementById('feedback');
-const scoreDiv = document.getElementById('score');
+  const submitBtn = document.getElementById('submitBtn');
+  const input = document.getElementById('answerInput');
+  const feedback = document.getElementById('feedback');
+  const scoreDiv = document.getElementById('score');
 
-let currentQuestion = 0;
-let score = 0;
-let questions = [];
-let answered = false; // 👈 kritik kontrol
+  let currentQuestion = 0;
+  let score = 0;
+  let questions = [];
+  let answered = false;
 
-if (submitBtn) {
+  if (!submitBtn || !input) return;
 
   /* ===============================
      ÖZEL KARAKTER PANELİ
   =============================== */
   const charPanel = document.getElementById('char-panel');
 
-  if (input && charPanel) {
+  if (charPanel) {
     const specialChars = ['ä', 'ö', 'ü', 'ß'];
     charPanel.innerHTML = '';
 
@@ -28,7 +29,10 @@ if (submitBtn) {
       btn.addEventListener('click', () => {
         const start = input.selectionStart;
         const end = input.selectionEnd;
-        input.value = input.value.slice(0, start) + char + input.value.slice(end);
+        input.value =
+          input.value.slice(0, start) +
+          char +
+          input.value.slice(end);
         input.focus();
         input.selectionStart = input.selectionEnd = start + 1;
       });
@@ -60,15 +64,14 @@ if (submitBtn) {
       answered = false;
       input.focus();
     } else {
-      document.getElementById('question').innerText = "Bitti 🎉";
+      document.getElementById('question').innerText = 'Bitti 🎉';
       submitBtn.style.display = 'none';
-      charPanel.style.display = 'none';
+      if (charPanel) charPanel.style.display = 'none';
     }
   }
 
   function submitAnswer() {
 
-    // Eğer bu soru zaten cevaplandıysa → sonraki soruya geç
     if (answered) {
       currentQuestion++;
       showQuestion();
@@ -99,9 +102,16 @@ if (submitBtn) {
       `;
     }
 
-    answered = true; // 👈 feedback artık sabit
+    answered = true;
   }
 
   submitBtn.addEventListener('click', submitAnswer);
 
   input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      submitAnswer();
+    }
+  });
+
+});
