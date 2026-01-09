@@ -5,6 +5,8 @@
   <title>{{TITLE}}</title>
   <link rel="stylesheet" href="../style.css">
   <style>
+
+  
     /* ÖZEL KARAKTER PANELİ - exercises.js ile uyumlu */
     #char-panel {
       display: flex;
@@ -72,33 +74,11 @@ fetch('../header.html')
 </script>
 
 <script src="../js/header.js"></script>
-<script src="../js/exercises.js"></script>
-
-<script>
-/* ====== ÖZEL KARAKTER BUTONLARI - exercises.js ile uyumlu ====== */
-document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('answerInput');
-  const charPanel = document.getElementById('char-panel');
-  if (!input || !charPanel) return;
-
-  const specialChars = ['ä', 'ö', 'ü', 'ß'];
-  charPanel.innerHTML = ''; // temizle
-
-  specialChars.forEach(char => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.textContent = char;
-    btn.addEventListener('click', () => {
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      input.value = input.value.slice(0, start) + char + input.value.slice(end);
-      input.focus();
-      input.selectionStart = input.selectionEnd = start + 1;
-    });
-    charPanel.appendChild(btn);
-  });
-});
+  <script>
+  window.EXERCISE_DATA = 'example-template.json';
 </script>
+
+<script src="../js/exercises.js"></script>
 
 </body>
 </html>
