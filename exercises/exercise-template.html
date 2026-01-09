@@ -21,6 +21,7 @@
     <input type="text" id="answerInput" placeholder="Antwort hier eingeben...">
     <button id="submitBtn">Check</button>
     <p id="feedback"></p>
+    <p id="explanation">{{EXPLANATION}}</p>
     <p id="score"></p>
   </div>
 </div>
@@ -61,7 +62,6 @@ function submitAnswer() {
   const feedback = document.getElementById('feedback');
   const score = document.getElementById('score');
 
-  // Buraya her exercise için doğru cevabı ekle
   const correctAnswer = "{{CORRECT_ANSWER}}";
 
   if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
