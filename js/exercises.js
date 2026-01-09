@@ -4,20 +4,22 @@ const submitBtn = document.getElementById('submitBtn');
 const input = document.getElementById('answerInput');
 const feedback = document.getElementById('feedback');
 const scoreDiv = document.getElementById('score');
-const explanation = document.getElementById('explanation');
 
 let currentQuestion = 0;
 let score = 0;
 let questions = [];
+let answered = false; // 👈 kritik kontrol
 
 if (submitBtn) {
 
-  // Özel karakter paneli
+  /* ===============================
+     ÖZEL KARAKTER PANELİ
+  =============================== */
   const charPanel = document.getElementById('char-panel');
 
   if (input && charPanel) {
     const specialChars = ['ä', 'ö', 'ü', 'ß'];
-    charPanel.innerHTML = ''; // temizle
+    charPanel.innerHTML = '';
 
     specialChars.forEach(char => {
       const btn = document.createElement('button');
@@ -34,8 +36,12 @@ if (submitBtn) {
     });
   }
 
-  // Soruları JSON'dan çek
-  fetch('praepositionen.json')
+  /* ===============================
+     JSON YÜKLEME
+  =============================== */
+  const dataFile = window.EXERCISE_DATA || 'praepositionen.json';
+
+  fetch(dataFile)
     .then(res => res.json())
     .then(data => {
       questions = data;
@@ -45,11 +51,14 @@ if (submitBtn) {
   function showQuestion() {
     if (currentQuestion < questions.length) {
       const q = questions[currentQuestion];
-      document.getElementById('question').innerHTML = `${q.sentence}<br><em>${q.translation}</em>`;
+      document.getElementById('question').innerHTML =
+        `${q.sentence}<br><em>${q.translation || ''}</em>`;
+
       input.value = '';
+      feedback.innerHTML = '';
       scoreDiv.innerText = `Skor: ${score}/${questions.length}`;
+      answered = false;
       input.focus();
-      // artık feedback veya explanation silinmiyor
     } else {
       document.getElementById('question').innerText = "Bitti 🎉";
       submitBtn.style.display = 'none';
@@ -58,42 +67,41 @@ if (submitBtn) {
   }
 
   function submitAnswer() {
+
+    // Eğer bu soru zaten cevaplandıysa → sonraki soruya geç
+    if (answered) {
+      currentQuestion++;
+      showQuestion();
+      return;
+    }
+
     if (!input.value.trim()) return;
 
     const userAnswer = input.value.trim();
-    const correctAnswer = questions[currentQuestion].answer;
-    const explanationText = questions[currentQuestion].explanation || '';
+    const q = questions[currentQuestion];
+    const correctAnswer = q.answer;
+    const explanationText = q.explanation || '';
 
     if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
       score++;
       feedback.innerHTML = `
         <strong>Richtig ✅</strong><br>
-        Dein Antwort: ${userAnswer}<br>
-        Richtige Antwort: ${correctAnswer}<br>
+        Deine Antwort: <strong>${userAnswer}</strong><br>
+        Richtige Antwort: <strong>${correctAnswer}</strong><br>
         Erklärung: ${explanationText}
       `;
     } else {
       feedback.innerHTML = `
         <strong>Falsch ❌</strong><br>
-        Dein Antwort: ${userAnswer}<br>
-        Richtige Antwort: ${correctAnswer}<br>
+        Deine Antwort: <strong>${userAnswer}</strong><br>
+        Richtige Antwort: <strong>${correctAnswer}</strong><br>
         Erklärung: ${explanationText}
       `;
     }
 
-    currentQuestion++;
-    showQuestion(); // artık setTimeout yok, feedback kalıcı
+    answered = true; // 👈 feedback artık sabit
   }
 
-  // Click ile gönder
   submitBtn.addEventListener('click', submitAnswer);
 
-  // Enter ile gönder
-  input.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      submitAnswer();
-    }
-  });
-
-}
+  input.addEventListener('keydown', e => {
