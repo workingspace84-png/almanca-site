@@ -21,8 +21,11 @@
 <script>
 fetch('header.html')
   .then(res => res.text())
-  .then(data => document.getElementById('header-placeholder').innerHTML = data);
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+  });
 </script>
+
 <script src="js/header.js"></script>
 
 </body>
