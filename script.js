@@ -13,10 +13,11 @@ if (submitBtn) {
       showQuestion();
     });
 
+  const input = document.getElementById('answerInput');
+  const feedback = document.getElementById('feedback');
+
   function showQuestion() {
     const questionEl = document.getElementById('question');
-    const input = document.getElementById('answerInput');
-    const feedback = document.getElementById('feedback');
     const scoreDiv = document.getElementById('score');
 
     if (currentQuestion < questions.length) {
@@ -24,25 +25,36 @@ if (submitBtn) {
       input.value = '';
       feedback.innerText = '';
       scoreDiv.innerText = `Skor: ${score}/${questions.length}`;
+      input.focus(); // Input her soru başında seçili olsun
     } else {
       questionEl.innerText = "Bitti 🎉";
       submitBtn.style.display = 'none';
     }
   }
 
-  submitBtn.addEventListener('click', () => {
-    const input = document.getElementById('answerInput');
-    const feedback = document.getElementById('feedback');
+  function submitAnswer() {
+    if (!input.value.trim()) return;
 
     if (input.value.trim().toLowerCase() === questions[currentQuestion].answer.toLowerCase()) {
       score++;
-      feedback.innerText = "Richtig!";
+      feedback.innerText = "Richtig! ✅";
     } else {
-      feedback.innerText = "Falsch!";
+      feedback.innerText = "Falsch ❌";
     }
 
     currentQuestion++;
     setTimeout(showQuestion, 800);
+  }
+
+  // Click ile gönder
+  submitBtn.addEventListener('click', submitAnswer);
+
+  // Enter ile gönder
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      submitAnswer();
+    }
   });
 
 }
