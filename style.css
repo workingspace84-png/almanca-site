@@ -73,7 +73,7 @@ nav ul li a {
 }
 
 /* ============================== */
-/* KONU KUTULARI */
+/* KONUT KUTULARI */
 /* ============================== */
 
 .thema {
@@ -169,27 +169,34 @@ footer p {
 }
 
 /* ============================== */
-/* ÖZEL KARAKTER BUTONLARI */
+/* ÖZEL KARAKTER PANELİ */
 /* ============================== */
 
+.special-chars {
+  display: flex;
+  justify-content: center; /* ortalama */
+  gap: 10px; 
+  margin-top: 10px; /* input ile arası */
+}
+
 .special-chars button {
-  margin: 4px 3px;
-  padding: 7px 11px;
-  font-size: 0.9rem;
-  cursor: pointer;
+  padding: 10px 16px;
+  font-size: 1rem;
   border-radius: 8px;
-  border: 1px solid #555;
-  background-color: #222;
-  color: #eee;
+  border: none;
+  background-color: #1abc9c; /* Check butonu ile uyumlu yeşil */
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .special-chars button:hover {
-  background-color: #1abc9c;
-  color: #111;
+  background-color: #16a085; /* hover rengi Check ile uyumlu */
 }
 
 /* ============================== */
-/* SUBMIT */
+/* SUBMIT / CHECK BUTONU */
 /* ============================== */
 
 .submit-button,
@@ -329,4 +336,3 @@ footer p {
     font-size: 1rem;
   }
 }
-
