@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>{{TITLE}}</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- ANA İÇERİK -->
+<div class="exercise-wrapper">
+  <div class="exercise-container">
+    <h2 class="exercise-title">{{TITLE}}</h2>
+    <p id="question">
+      {{QUESTION}}<br>
+      <em>{{TRANSLATION}}</em>
+    </p>
+    <input type="text" id="answerInput" placeholder="Antwort hier eingeben...">
+    <button id="submitBtn">Check</button>
+    <p id="feedback"></p>
+    <p id="score"></p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Mein Deutsch Study Hall</p>
+</footer>
+
+<!-- HEADER FETCH -->
+<script>
+fetch('../header.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+  });
+</script>
+
+<script src="../js/header.js"></script>
+<script src="../script.js"></script>
+
+<!-- EXERCISE JS -->
+<script>
+const answerInput = document.getElementById('answerInput');
+const submitBtn = document.getElementById('submitBtn');
+
+answerInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    submitAnswer();
+  }
+});
+
+submitBtn.addEventListener('click', submitAnswer);
+
+function submitAnswer() {
+  const answer = answerInput.value.trim();
+  const feedback = document.getElementById('feedback');
+  const score = document.getElementById('score');
+
+  // Buraya her exercise için doğru cevabı ekle
+  const correctAnswer = "{{CORRECT_ANSWER}}";
+
+  if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
+    feedback.textContent = 'Richtig! ✅';
+  } else {
+    feedback.textContent = 'Falsch ❌';
+  }
+
+  answerInput.value = '';
+}
+</script>
+
+</body>
+</html>
