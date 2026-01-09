@@ -12,35 +12,27 @@ let questions = [];
 
 if (submitBtn) {
 
-  // Almanca özel karakter paneli oluştur
-  const charPanel = document.createElement('div');
-  charPanel.id = 'char-panel';
-  charPanel.style.marginBottom = '10px';
-  charPanel.style.display = 'flex';
-  charPanel.style.gap = '5px';
+  // Özel karakter paneli
+  const charPanel = document.getElementById('char-panel');
 
-  const specialChars = ['ä', 'ö', 'ü', 'ß'];
-  specialChars.forEach(char => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.textContent = char;
-    btn.style.padding = '5px 10px';
-    btn.style.borderRadius = '5px';
-    btn.style.border = '1px solid #888';
-    btn.style.background = '#f0f0f0';
-    btn.style.cursor = 'pointer';
-    btn.addEventListener('click', () => {
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      input.value = input.value.slice(0, start) + char + input.value.slice(end);
-      input.focus();
-      input.selectionStart = input.selectionEnd = start + 1;
+  if (input && charPanel) {
+    const specialChars = ['ä', 'ö', 'ü', 'ß'];
+    charPanel.innerHTML = ''; // temizle
+
+    specialChars.forEach(char => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = char;
+      btn.addEventListener('click', () => {
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        input.value = input.value.slice(0, start) + char + input.value.slice(end);
+        input.focus();
+        input.selectionStart = input.selectionEnd = start + 1;
+      });
+      charPanel.appendChild(btn);
     });
-    charPanel.appendChild(btn);
-  });
-
-  // Input üstüne paneli ekle
-  input.parentNode.insertBefore(charPanel, input);
+  }
 
   // Soruları JSON'dan çek
   fetch('praepositionen.json')
@@ -55,8 +47,8 @@ if (submitBtn) {
       const q = questions[currentQuestion];
       document.getElementById('question').innerHTML = `${q.sentence}<br><em>${q.translation}</em>`;
       input.value = '';
-      feedback.innerText = '';
-      explanation.innerText = q.explanation || '';
+      feedback.innerHTML = '';
+      explanation.innerText = '';
       scoreDiv.innerText = `Skor: ${score}/${questions.length}`;
       input.focus();
     } else {
@@ -69,17 +61,29 @@ if (submitBtn) {
   function submitAnswer() {
     if (!input.value.trim()) return;
 
+    const userAnswer = input.value.trim();
     const correctAnswer = questions[currentQuestion].answer;
+    const explanationText = questions[currentQuestion].explanation || '';
 
-    if (input.value.trim().toLowerCase() === correctAnswer.toLowerCase()) {
-      feedback.innerText = "Richtig! ✅";
+    if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
       score++;
+      feedback.innerHTML = `
+        <strong>Richtig ✅</strong><br>
+        Dein Antwort: ${userAnswer}<br>
+        Richtige Antwort: ${correctAnswer}<br>
+        Erklärung: ${explanationText}
+      `;
     } else {
-      feedback.innerText = "Falsch ❌";
+      feedback.innerHTML = `
+        <strong>Falsch ❌</strong><br>
+        Dein Antwort: ${userAnswer}<br>
+        Richtige Antwort: ${correctAnswer}<br>
+        Erklärung: ${explanationText}
+      `;
     }
 
     currentQuestion++;
-    setTimeout(showQuestion, 800);
+    setTimeout(showQuestion, 1500);
   }
 
   // Click ile gönder
@@ -94,4 +98,3 @@ if (submitBtn) {
   });
 
 }
-
