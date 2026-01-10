@@ -1,82 +1,77 @@
-// js/exercises.js
+// js/exercises-multi.js
 document.addEventListener('DOMContentLoaded', () => {
 
   const questionEl = document.getElementById('question');
   const optionsEl = document.getElementById('options');
   const feedbackEl = document.getElementById('feedback');
   const scoreEl = document.getElementById('score');
-  const nextBtn = document.getElementById('nextBtn');
 
   let questions = [];
-  let currentQuestion = 0;
-  let score = 0;
-  let answered = false;
+  let currentIndex = 0;
+  let correctCount = 0;
+  let locked = false;
 
   const dataFile = window.EXERCISE_DATA || 'exercise-template.json';
 
   fetch(dataFile)
     .then(res => res.json())
     .then(data => {
-      questions = data;
+      questions = [...data]; // kopya al
       showQuestion();
     });
 
   function showQuestion() {
-    const q = questions[currentQuestion];
-    answered = false;
-
-    questionEl.innerHTML = q.sentence;
-    optionsEl.innerHTML = '';
+    locked = false;
     feedbackEl.innerHTML = '';
-    nextBtn.style.display = 'none';
+    optionsEl.innerHTML = '';
+
+    if (questions.length === 0) {
+      questionEl.innerHTML = '🎉 Tebrikler! Tüm soruları doğru yaptın.';
+      scoreEl.innerText = `Doğru: ${correctCount}`;
+      return;
+    }
+
+    const q = questions[0];
+    questionEl.innerHTML = q.sentence;
 
     q.options.forEach(option => {
       const btn = document.createElement('button');
-      btn.textContent = option;
       btn.className = 'option-btn';
+      btn.textContent = option;
 
       btn.addEventListener('click', () => handleAnswer(option, q));
 
       optionsEl.appendChild(btn);
     });
 
-    scoreEl.textContent = `Skor: ${score}/${questions.length}`;
+    scoreEl.innerText = `Kalan soru: ${questions.length} | Doğru: ${correctCount}`;
   }
 
-  function handleAnswer(selected, q) {
-    if (answered) return;
-    answered = true;
+  function handleAnswer(selected, question) {
+    if (locked) return;
+    locked = true;
 
-    if (selected === q.answer) {
-      score++;
+    if (selected === question.answer) {
+      correctCount++;
       feedbackEl.innerHTML = `
-        <strong>Doğru ✅</strong><br>
-        <strong>${q.answer}</strong> doğru cevaptır.<br>
-        ${q.explanation}
+        <strong>Richtig ✅</strong><br>
+        ${question.explanation}
       `;
+
+      // Doğruysa → soruyu listeden çıkar
+      questions.shift();
+
     } else {
       feedbackEl.innerHTML = `
-        <strong>Yanlış ❌</strong><br>
-        Senin seçimin: <strong>${selected}</strong><br>
-        Doğru cevap: <strong>${q.answer}</strong><br>
-        ${q.explanation}
+        <strong>Falsch ❌</strong><br>
+        ${question.explanation}
       `;
+
+      // Yanlışsa → soruyu sona ekle
+      questions.push(questions.shift());
     }
 
-    nextBtn.style.display = 'inline-block';
-    scoreEl.textContent = `Skor: ${score}/${questions.length}`;
+    setTimeout(showQuestion, 1800);
   }
-
-  nextBtn.addEventListener('click', () => {
-    currentQuestion++;
-    if (currentQuestion < questions.length) {
-      showQuestion();
-    } else {
-      questionEl.textContent = 'Bitti 🎉';
-      optionsEl.innerHTML = '';
-      feedbackEl.innerHTML = `Toplam skorun: ${score}/${questions.length}`;
-      nextBtn.style.display = 'none';
-    }
-  });
 
 });
