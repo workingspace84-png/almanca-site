@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const optionsEl = document.getElementById('options');
   const feedbackEl = document.getElementById('feedback');
   const scoreEl = document.getElementById('score');
+  const nextBtn = document.getElementById('nextBtn');
 
   let questions = [];
   let currentIndex = 0;
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch(dataFile)
     .then(res => res.json())
     .then(data => {
-      questions = [...data]; // soruları kopya al
+      questions = [...data];
       showQuestion();
     });
 
@@ -23,14 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
     locked = false;
     feedbackEl.innerHTML = '';
     optionsEl.innerHTML = '';
+    nextBtn.style.display = 'none';
 
     if (questions.length === 0) {
-      questionEl.innerHTML = '🎉 Tebrikler! Tüm sorular tamamlandı.';
+      questionEl.innerHTML = '🎉 Tebrikler! Tüm soruları tamamladın.';
       scoreEl.innerText = `Doğru: ${correctCount}`;
       return;
     }
 
-    const q = questions[0];
+    const q = questions[currentIndex];
     questionEl.innerHTML = q.sentence;
 
     q.options.forEach(option => {
@@ -43,43 +45,42 @@ document.addEventListener('DOMContentLoaded', () => {
       optionsEl.appendChild(btn);
     });
 
-    scoreEl.innerText = `Kalan soru: ${questions.length} | Doğru: ${correctCount}`;
+    scoreEl.innerText = `Soru: ${currentIndex + 1}/${questions.length} | Doğru: ${correctCount}`;
   }
 
-  function handleAnswer(selected, question, buttonEl) {
+  function handleAnswer(selected, question, btn) {
     if (locked) return;
     locked = true;
 
+    // Tüm seçenekleri pasif yap
+    document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+
     if (selected === question.answer) {
       correctCount++;
-      buttonEl.classList.add('option-correct');
-
-      feedbackEl.innerHTML = `
-        <strong>Richtig ✅</strong><br>
-        ${question.explanation}
-      `;
-
-      // Doğruysa → soruyu listeden çıkar
-      questions.shift();
-
+      btn.classList.add('option-correct');
+      feedbackEl.innerHTML = `<strong>Richtig ✅</strong><br>${question.explanation}`;
     } else {
-      buttonEl.classList.add('option-wrong');
-
-      feedbackEl.innerHTML = `
-        <strong>Falsch ❌</strong><br>
-        ${question.explanation}
-      `;
-
-      // Yanlışsa → soruyu sona ekle
-      questions.push(questions.shift());
+      btn.classList.add('option-wrong');
+      feedbackEl.innerHTML = `<strong>Falsch ❌</strong><br>${question.explanation}`;
     }
 
-    // Tüm seçenekleri devre dışı bırak
-    const buttons = document.querySelectorAll('.option-btn');
-    buttons.forEach(btn => btn.disabled = true);
-
-    // 1.8 saniye sonra otomatik olarak sonraki soruya geç
-    setTimeout(showQuestion, 1800);
+    // Sonraki butonunu göster
+    nextBtn.style.display = 'inline-block';
   }
+
+  nextBtn.addEventListener('click', () => {
+    // Doğru cevapsa soruyu çıkar, yanlışsa sona ekle
+    const q = questions[currentIndex];
+    const lastAnswerCorrect = document.querySelector('.option-correct');
+
+    if (lastAnswerCorrect) {
+      questions.splice(currentIndex, 1); // doğruysa çıkar
+    } else {
+      currentIndex++;
+      if (currentIndex >= questions.length) currentIndex = 0; // yanlışsa sona eklemiş gibi devam
+    }
+
+    showQuestion();
+  });
 
 });
