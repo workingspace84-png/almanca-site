@@ -1,0 +1,12 @@
+[
+  {
+    "sentence": "<strong>Ich bin Ahmet.</strong><br><em>Ben Ahmet'im.</em><br><br>Burada neden <strong>bin</strong> kullanılmıştır?",
+    "options": [
+      "Çünkü burada „bin“ dativ formdadır",
+      "Çünkü „ich“ öznesi tanımlama cümlelerinde „sein → bin“ alır",
+      "Çünkü „Ahmet“ akkusativtir"
+    ],
+    "answer": "Çünkü „ich“ öznesi tanımlama cümlelerinde „sein → bin“ alır",
+    "explanation": "Bu cümle bir tanımlama cümlesidir. Almanca’da özne „ich“ ise ve yüklem bir isimle kuruluyorsa „sein“ fiili kullanılır ve çekimi „bin“ olur."
+  }
+]
