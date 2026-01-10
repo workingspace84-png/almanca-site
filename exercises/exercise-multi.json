@@ -8,5 +8,15 @@
     ],
     "answer": "Çünkü „ich“ öznesi tanımlama cümlelerinde „sein → bin“ alır",
     "explanation": "Bu cümle bir tanımlama cümlesidir. Almanca’da özne „ich“ ise ve yüklem bir isimle kuruluyorsa „sein“ fiili kullanılır ve çekimi „bin“ olur."
+  },
+  {
+    "sentence": "<strong>Ich gehe zur Schule.</strong><br><em>Okula gidiyorum.</em><br><br>Burada neden <strong>zur</strong> kullanılmıştır?",
+    "options": [
+      "Çünkü „gehen“ fiili her zaman „zur“ alır",
+      "Çünkü „Schule“ feminin bir isimdir ve „zu + der → zur“ olur",
+      "Çünkü bu cümlede akkusativ kullanılır"
+    ],
+    "answer": "Çünkü „Schule“ feminin bir isimdir ve „zu + der → zur“ olur",
+    "explanation": "„zu“ edatı Dativ ister. „Schule“ feminin olduğu için artikel „der“ olur. „zu + der“ birleşerek „zur“ şeklini alır."
   }
 ]
