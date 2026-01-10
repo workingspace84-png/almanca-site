@@ -259,3 +259,29 @@ footer p {
   }
 
 }
+
+/* ============================== */
+/* FEEDBACK ALANI GÜNCELLEME */
+/* ============================== */
+
+#feedback {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: #222;
+  border: 1px solid #333;
+  font-size: 0.95rem;
+  color: #eee;
+  text-align: left;
+  min-height: 50px; /* Açıklama kutusunun her zaman görünmesini sağlar */
+}
+
+/* ============================== */
+/* OTOMATİK GEÇİŞTE BUTON DURUMU */
+/* ============================== */
+
+.option-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
