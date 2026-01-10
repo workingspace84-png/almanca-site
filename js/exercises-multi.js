@@ -1,4 +1,3 @@
-// js/exercises-multi.js
 document.addEventListener('DOMContentLoaded', () => {
 
   const questionEl = document.getElementById('question');
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch(dataFile)
     .then(res => res.json())
     .then(data => {
-      questions = [...data]; // kopya al
+      questions = [...data]; // soruları kopya al
       showQuestion();
     });
 
@@ -26,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     optionsEl.innerHTML = '';
 
     if (questions.length === 0) {
-      questionEl.innerHTML = '🎉 Tebrikler! Tüm soruları doğru yaptın.';
+      questionEl.innerHTML = '🎉 Tebrikler! Tüm sorular tamamlandı.';
       scoreEl.innerText = `Doğru: ${correctCount}`;
       return;
     }
@@ -39,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.className = 'option-btn';
       btn.textContent = option;
 
-      btn.addEventListener('click', () => handleAnswer(option, q));
+      btn.addEventListener('click', () => handleAnswer(option, q, btn));
 
       optionsEl.appendChild(btn);
     });
@@ -47,12 +46,14 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreEl.innerText = `Kalan soru: ${questions.length} | Doğru: ${correctCount}`;
   }
 
-  function handleAnswer(selected, question) {
+  function handleAnswer(selected, question, buttonEl) {
     if (locked) return;
     locked = true;
 
     if (selected === question.answer) {
       correctCount++;
+      buttonEl.classList.add('option-correct');
+
       feedbackEl.innerHTML = `
         <strong>Richtig ✅</strong><br>
         ${question.explanation}
@@ -62,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
       questions.shift();
 
     } else {
+      buttonEl.classList.add('option-wrong');
+
       feedbackEl.innerHTML = `
         <strong>Falsch ❌</strong><br>
         ${question.explanation}
@@ -71,6 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
       questions.push(questions.shift());
     }
 
+    // Tüm seçenekleri devre dışı bırak
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(btn => btn.disabled = true);
+
+    // 1.8 saniye sonra otomatik olarak sonraki soruya geç
     setTimeout(showQuestion, 1800);
   }
 
