@@ -1,22 +1,86 @@
 [
   {
-    "sentence": "<strong>Ich bin Ahmet.</strong><br><em>Ben Ahmet'im.</em><br><br>Burada neden <strong>bin</strong> kullanılmıştır?",
-    "options": [
-      "Çünkü burada „bin“ dativ formdadır",
-      "Çünkü „ich“ öznesi tanımlama cümlelerinde „sein → bin“ alır",
-      "Çünkü „Ahmet“ akkusativtir"
-    ],
-    "answer": "Çünkü „ich“ öznesi tanımlama cümlelerinde „sein → bin“ alır",
-    "explanation": "Bu cümle bir tanımlama cümlesidir. Almanca’da özne „ich“ ise ve yüklem bir isimle kuruluyorsa „sein“ fiili kullanılır ve çekimi „bin“ olur."
+    "id": 1,
+    "type": "multi",
+    "level": "A1",
+    "sentence": {
+      "de": "<strong>Ich bin Ahmet.</strong>",
+      "tr": "<strong>Ben Ahmet'im.</strong>",
+      "en": "<strong>I am Ahmet.</strong>"
+    },
+    "question": {
+      "de": "Burada neden <strong>bin</strong> kullanılmıştır?",
+      "tr": "Burada neden <strong>bin</strong> kullanılmıştır?",
+      "en": "Why is <strong>bin</strong> used here?"
+    },
+    "options": {
+      "de": [
+        "Weil „bin“ hier Dativ ist",
+        "Weil das Subjekt „ich“ in einem Beschreibungsatz „sein → bin“ nimmt",
+        "Weil „Ahmet“ Akkusativ ist"
+      ],
+      "tr": [
+        "Çünkü burada „bin“ dativ formdadır",
+        "Çünkü „ich“ öznesi tanımlama cümlelerinde „sein → bin“ alır",
+        "Çünkü „Ahmet“ akkusativtir"
+      ],
+      "en": [
+        "Because here „bin“ is in the dative form",
+        "Because the subject „ich“ takes „sein → bin“ in a descriptive sentence",
+        "Because „Ahmet“ is accusative"
+      ]
+    },
+    "answer": {
+      "de": "Weil das Subjekt „ich“ in einem Beschreibungsatz „sein → bin“ nimmt",
+      "tr": "Çünkü „ich“ öznesi tanımlama cümlelerinde „sein → bin“ alır",
+      "en": "Because the subject „ich“ takes „sein → bin“ in a descriptive sentence"
+    },
+    "explanation": {
+      "de": "Dies ist ein beschreibender Satz. Wenn das Subjekt „ich“ ist und das Prädikat ein Nomen ist, wird das Verb „sein“ benutzt und die Form ist „bin“.",
+      "tr": "Bu cümle bir tanımlama cümlesidir. Almanca’da özne „ich“ ise ve yüklem bir isimle kuruluyorsa „sein“ fiili kullanılır ve çekimi „bin“ olur.",
+      "en": "This is a descriptive sentence. In German, if the subject is „ich“ and the predicate is a noun, the verb „sein“ is used and its form is „bin“."
+    }
   },
   {
-    "sentence": "<strong>Ich gehe zur Schule.</strong><br><em>Okula gidiyorum.</em><br><br>Burada neden <strong>zur</strong> kullanılmıştır?",
-    "options": [
-      "Çünkü „gehen“ fiili her zaman „zur“ alır",
-      "Çünkü „Schule“ feminin bir isimdir ve „zu + der → zur“ olur",
-      "Çünkü bu cümlede akkusativ kullanılır"
-    ],
-    "answer": "Çünkü „Schule“ feminin bir isimdir ve „zu + der → zur“ olur",
-    "explanation": "„zu“ edatı Dativ ister. „Schule“ feminin olduğu için artikel „der“ olur. „zu + der“ birleşerek „zur“ şeklini alır."
+    "id": 2,
+    "type": "multi",
+    "level": "A1",
+    "sentence": {
+      "de": "<strong>Ich gehe zur Schule.</strong>",
+      "tr": "<strong>Okula gidiyorum.</strong>",
+      "en": "<strong>I am going to school.</strong>"
+    },
+    "question": {
+      "de": "Burada neden <strong>zur</strong> verwendet wird?",
+      "tr": "Burada neden <strong>zur</strong> kullanılmıştır?",
+      "en": "Why is <strong>zur</strong> used here?"
+    },
+    "options": {
+      "de": [
+        "Weil das Verb „gehen“ immer „zur“ nimmt",
+        "Weil „Schule“ ein feminines Nomen ist und „zu + der → zur“ wird",
+        "Weil dieser Satz Akkusativ verwendet"
+      ],
+      "tr": [
+        "Çünkü „gehen“ fiili her zaman „zur“ alır",
+        "Çünkü „Schule“ feminin bir isimdir ve „zu + der → zur“ olur",
+        "Çünkü bu cümlede akkusativ kullanılır"
+      ],
+      "en": [
+        "Because the verb „gehen“ always takes „zur“",
+        "Because „Schule“ is a feminine noun and „zu + der → zur“",
+        "Because this sentence uses accusative"
+      ]
+    },
+    "answer": {
+      "de": "Weil „Schule“ ein feminines Nomen ist und „zu + der → zur“ wird",
+      "tr": "Çünkü „Schule“ feminin bir isimdir ve „zu + der → zur“ olur",
+      "en": "Because „Schule“ is a feminine noun and „zu + der → zur“"
+    },
+    "explanation": {
+      "de": "Die Präposition „zu“ verlangt Dativ. „Schule“ ist feminin, daher ist der Artikel „der“. „zu + der“ wird zu „zur“ kombiniert.",
+      "tr": "„zu“ edatı Dativ ister. „Schule“ feminin olduğu için artikel „der“ olur. „zu + der“ birleşerek „zur“ şeklini alır.",
+      "en": "The preposition „zu“ requires dative. „Schule“ is feminine, so the article is „der“. „zu + der“ combines to form „zur“."
+    }
   }
 ]
