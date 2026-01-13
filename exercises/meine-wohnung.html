@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise 1 – Meine Wohnung</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<div class="exercise-wrapper">
+  <div class="exercise-container">
+    <h2 class="exercise-title">Exercise 1</h2>
+    <p id="question">
+      Ich habe seit gestern Kopfschmerzen.<br>
+      <em>I have had a headache since yesterday.</em>
+    </p>
+    <input type="text" id="answerInput" placeholder="Antwort hier eingeben...">
+    <button id="submitBtn">Check</button>
+    <p id="feedback"></p>
+    <p id="score"></p>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 Mein Deutsch Study Hall</p>
+</footer>
+
+<!-- HEADER -->
+<script>
+fetch('../header.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+  });
+</script>
+
+<script src="../js/header.js"></script>
+<script src="../script.js"></script>
+
+<script>
+const answerInput = document.getElementById('answerInput');
+const submitBtn = document.getElementById('submitBtn');
+
+answerInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    submitAnswer();
+  }
+});
+
+submitBtn.addEventListener('click', submitAnswer);
+
+function submitAnswer() {
+  const answer = answerInput.value.trim();
+  const feedback = document.getElementById('feedback');
+  const score = document.getElementById('score');
+
+  if (answer.toLowerCase() === 'richtig') {
+    feedback.textContent = 'Richtig! ✅';
+  } else {
+    feedback.textContent = 'Falsch ❌';
+  }
+
+  answerInput.value = '';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Neue Seite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<main class="content-wrapper">
+  <div class="content-container">
+    <h2 class="page-title">Neue Seite</h2>
+    <p>Bu sayfa şu an boş. Buraya istediğiniz içerikleri ekleyebilirsiniz.</p>
+
+    <ul>
+      <li><a href="wohnbereich.html">Wohnbereich</a></li>
+      <li><a href="person-soziales.html">Person & Soziales</a></li>
+      <li><a href="arbeit-beruf.html">Arbeit / Beruf</a></li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Mein Deutsch Study Hall</p>
+</footer>
+
+<!-- HEADER -->
+<script>
+fetch('../header.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+  });
+</script>
+
+<script src="../js/header.js"></script>
+
+</body>
+</html>

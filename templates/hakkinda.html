@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Hakkında - Mein Deutsch Study Hall</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header> 
+  <h1>Mein Deutsch Study Hall</h1> 
+  <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+  <nav id="menu" class="hidden">
+    <ul>
+      <li><a href="index.html">Ana Sayfa</a></li>
+      <li><a href="hakkinda.html">Hakkında</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <div style="text-align:center; padding:20px;">
+    <h2>Hakkında</h2>
+    <p>Bu siteyi herkes için yaptım.</p>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Mein Deutsch Study Hall</p>
+</footer>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('menu');
+  menu.classList.toggle('hidden');
+}
+</script>
+</body>
+</html>
