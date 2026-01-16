@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+Mein Deutsch Study Hall
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="welcome-section">
+  <h1>Willkommen!</h1>
+  <p>Deutsch lernen leicht gemacht.</p>
+</section>
+
+{% for main_topic in HOME_STRUCTURE %}
+  <section class="topic-section">
+    <h2>{{ main_topic.main_title[lang] }}</h2>
+
+    {% for unit in main_topic.units %}
+      <div class="unit-card">
+        <h3>{{ unit.title[lang] }}</h3>
+        <p>{{ unit.description[lang] }}</p>
+
+        <div class="exercise-list">
+          {% for exercise in unit.exercises %}
+            <a href="{{ exercise.link }}" class="exercise-card">
+              <h4>{{ exercise.name[lang] }}</h4>
+              <p>{{ exercise.description[lang] }}</p>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+{% endfor %}
+{% endblock %}

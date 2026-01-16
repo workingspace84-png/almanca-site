@@ -1,0 +1,79 @@
+
+/* ============================== */
+/* HEADER – CLEAN ACADEMIC */
+/* ============================== */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* RIGHT SIDE */
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.header-links {
+  display: flex;
+  gap: 16px;
+}
+
+.header-link {
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.header-lang {
+  display: flex;
+  gap: 8px;
+}
+
+.lang-btn {
+  background-color: transparent;
+  border: 1px solid #444;
+  color: var(--text-color);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 20px;
+    gap: 8px;
+  }
+
+  .header-right {
+    align-items: flex-start;
+  }
+
+  .header-links {
+    flex-direction: row;
+    gap: 12px;
+  }
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Grammatik Übungen</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+{% include 'header.html' %}
+
+<main style="padding:20px;">
+  <h1>Grammatik Übungen</h1>
+  <div id="frageContainer">
+    <p id="frage">Was ist der richtige Artikel für "Tisch"?</p>
+    <button onclick="checkAntwort('der')">der</button>
+    <button onclick="checkAntwort('die')">die</button>
+    <button onclick="checkAntwort('das')">das</button>
+  </div>
+  <p id="ergebnis"></p>
+</main>
+
+<footer>
+  <p>&copy; 2025 Mein Deutsch Study Hall</p>
+</footer>
+
+<script src="{{ url_for('static', filename='js/header.js') }}"></script>
+<script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
+
+</body>
+</html>

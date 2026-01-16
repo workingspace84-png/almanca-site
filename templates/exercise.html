@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Multiple Choice Exercise{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/exercise.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- SAYFA BAŞLIĞI – Container dışında -->
+<h2 class="exercise-page-title">Multiple Choice Exercise</h2>
+
+<div class="exercise-wrapper">
+  <div class="exercise-container">
+
+    <p id="question"></p>
+
+    <div id="options"></div>
+
+    <button id="nextBtn" style="display:none;">Next Question</button>
+
+    <div id="feedback"></div>
+    <p id="score"></p>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  window.LANGUAGE = "{{ request.args.get('lang', 'tr') }}";
+  window.EXERCISE_DATA = "/api/exercises";
+</script>
+<script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
+{% endblock %}

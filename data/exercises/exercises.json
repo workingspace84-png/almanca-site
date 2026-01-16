@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "sentence": { "de": "Ich bin Ahmet." },
+    "translation": { "en": "I am Ahmet.", "tr": "Ben Ahmet." },
+    "options": {
+      "en": [
+        "Because the subject 'ich' takes 'sein → bin'",
+        "Because 'bin' is dative here",
+        "Because 'Ahmet' is accusative"
+      ],
+      "tr": [
+        "Özne 'ich' için 'sein → bin' kullanılır",
+        "'Bin' burada dativdir",
+        "'Ahmet' akkusativtir"
+      ]
+    },
+    "answer": {
+      "en": "Because the subject 'ich' takes 'sein → bin'",
+      "tr": "Özne 'ich' için 'sein → bin' kullanılır"
+    },
+    "explanation": {
+      "en": "This is a descriptive sentence. If the subject is 'ich' and the predicate is a noun, the verb 'sein' is used and the form is 'bin'. Observe verb conjugation and sentence structure carefully.",
+      "tr": "Bu açıklayıcı bir cümledir. Özne 'ich' ve yüklem bir isimse, 'sein' fiili kullanılır ve biçimi 'bin' olur. Fiil çekimini ve cümle yapısını dikkatle inceleyin."
+    }
+  }
+]

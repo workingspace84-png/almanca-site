@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% block title %}Mein Deutsch Study Hall{% endblock %}</title>
+
+  <!-- SEO Meta -->
+  <meta name="description" content="Mein Deutsch Study Hall – Almanca öğrenme platformu, yetişkinler için grammer ve alıştırmalar.">
+  <meta name="keywords" content="Deutsch, Almanca, Grammatik, Übungen, Erwachsene, Learning, Study">
+  <meta name="robots" content="index, follow">
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
+  <!-- Base CSS: tüm site için -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <!-- Header CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <!-- Footer CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  {% include 'header.html' %}
+
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'footer.html' %}
+
+  <!-- Header JS -->
+  <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>

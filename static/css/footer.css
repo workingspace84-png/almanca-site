@@ -1,0 +1,9 @@
+.site-footer {
+  width: 100%;
+  padding: 16px 32px;
+  background-color: #1a1a1a; /* header ile uyumlu */
+  color: #aaa;
+  border-top: 1px solid #333;
+  text-align: center;
+  font-size: 0.9rem;
+}
