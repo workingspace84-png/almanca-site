@@ -70,20 +70,22 @@
 
 /* NEXT BUTTON */
 #nextBtn {
-  padding: 6px 12px;
-  border-radius: var(--radius-small);
-  cursor: pointer;
-  background-color: #333;
-  color: #eee;
-  border: none;
-  font-weight: 500;
-  transition: all var(--transition-fast);
+    display: none;         /* sayfa yüklenince gizli */
+    padding: 6px 12px;
+    border-radius: var(--radius-small);
+    cursor: pointer;
+    background-color: #333;
+    color: #eee;
+    border: none;
+    font-weight: 500;
+    transition: all var(--transition-fast);
 }
 
 #nextBtn:hover {
-  background-color: #555;
-  color: #eee;
+    background-color: #555;
+    color: #eee;
 }
+
 
 /* FEEDBACK & SCORE */
 #feedback, #score {

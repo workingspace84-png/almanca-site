@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ exercise.sentence[lang] }} - Mein Deutsch Study Hall
+{% endblock %}
+
+{% block content %}
+<div class="exercise-detail">
+  <h2>{{ exercise.sentence[lang] }}</h2>
+
+  <p><strong>{{ 'Explanation' | translate(lang) }}:</strong> {{ exercise.explanation[lang] }}</p>
+
+  <h3>{{ 'Answer' | translate(lang) }}:</h3>
+  <p>{{ exercise.answer[lang] }}</p>
+
+  <div id="question">{{ exercise.sentence[lang] }}</div>
+  <div id="options"></div>
+
+  <button id="nextBtn">{{ 'Next Question' | translate(lang) }}</button>
+</div>
+
+{% block extra_js %}
+<script>
+  window.EXERCISE_DATA = "/api/exercises/{{ exercise.id }}";  // Egzersiz verisini dinamik yükleyin
+  window.LANGUAGE = "{{ lang }}";
+</script>
+<script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
+{% endblock %}
+{% endblock %}

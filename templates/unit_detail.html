@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ unit.title[lang] }}{% endblock %}
+
+{% block content %}
+<h2>{{ unit.title[lang] }}</h2>
+<p>{{ unit.description[lang] }}</p>
+
+<div class="exercise-list">
+  {% for exercise in unit.exercises %}
+    <a href="{{ url_for('exercise_by_key', unit_key=unit.unit_key, exercise_key=exercise.exercise_key) }}" class="exercise-card">
+      <h4>{{ exercise.title[lang] }}</h4>
+    </a>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -25,12 +25,13 @@ Mein Deutsch Study Hall
 
         <div class="exercise-list">
           {% for exercise in unit.exercises %}
-            <a href="{{ exercise.link }}" class="exercise-card">
-              <h4>{{ exercise.name[lang] }}</h4>
-              <p>{{ exercise.description[lang] }}</p>
+            <a href="{{ url_for('exercise_by_key', unit_key=unit.unit_key, exercise_key=exercise.exercise_key) }}" class="exercise-card">
+              <h4>{{ exercise.title[lang] }}</h4>
             </a>
           {% endfor %}
         </div>
+
+        <a href="{{ url_for('unit_detail', unit_key=unit.unit_key) }}" class="view-unit-btn">View All Exercises</a>
       </div>
     {% endfor %}
   </section>

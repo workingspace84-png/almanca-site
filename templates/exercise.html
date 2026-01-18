@@ -14,14 +14,20 @@
 <div class="exercise-wrapper">
   <div class="exercise-container">
 
+    <!-- Soru -->
     <p id="question"></p>
 
+    <!-- Seçenekler -->
     <div id="options"></div>
 
-    <button id="nextBtn" style="display:none;">Next Question</button>
-
+    <!-- Feedback -->
     <div id="feedback"></div>
+
+    <!-- Skor / ilerleme -->
     <p id="score"></p>
+
+    <!-- 🔴 NEXT BUTTON: mutlaka eklenmeli -->
+    <button id="nextBtn" style="display:none;">Next Question</button>
 
   </div>
 </div>
@@ -30,8 +36,11 @@
 
 {% block extra_js %}
 <script>
-  window.LANGUAGE = "{{ request.args.get('lang', 'tr') }}";
-  window.EXERCISE_DATA = "/api/exercises";
+  // Backend tarafından gönderilen dil
+  window.LANGUAGE = "{{ lang }}";
+
+  // Backend tarafından gönderilen exercise_id kullanılarak API çağrısı yapılacak
+  window.EXERCISE_DATA = "/api/exercises/{{ exercise_id }}";  
 </script>
 <script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
 {% endblock %}

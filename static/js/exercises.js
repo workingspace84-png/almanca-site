@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const scoreEl = document.getElementById("score");
   const nextBtn = document.getElementById("nextBtn");
 
-  const lang = window.LANGUAGE || "tr"; // URL param veya default tr
+  const lang = window.LANGUAGE || "en";  // URL param veya default en
   let questions = [];
   let currentIndex = 0;
   let correctCount = 0;
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch(window.EXERCISE_DATA)
     .then(res => res.json())
     .then(data => {
-      questions = data;
+        questions = Array.isArray(data) ? data : [data];
       showQuestion();
     })
     .catch(err => {
@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   function showQuestion() {
-    // 🔴 DÜZELTME: tüm sorular bitince
     if (currentIndex >= questions.length) {
       questionEl.innerHTML = "🎉 All exercises completed!";
       optionsEl.innerHTML = "";
@@ -92,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
     nextBtn.style.display = "inline-block";
   }
 
-  // 🔴 DÜZELTME: artık başa dönmez
   nextBtn.addEventListener("click", () => {
     currentIndex++;
     showQuestion();

@@ -23,5 +23,30 @@
       "en": "This is a descriptive sentence. If the subject is 'ich' and the predicate is a noun, the verb 'sein' is used and the form is 'bin'. Observe verb conjugation and sentence structure carefully.",
       "tr": "Bu açıklayıcı bir cümledir. Özne 'ich' ve yüklem bir isimse, 'sein' fiili kullanılır ve biçimi 'bin' olur. Fiil çekimini ve cümle yapısını dikkatle inceleyin."
     }
+  },
+  {
+    "id": 2,
+    "sentence": { "de": "Ich habe ein Buch." },
+    "translation": { "en": "I have a book.", "tr": "Benim bir kitabım var." },
+    "options": {
+      "en": [
+        "Because 'habe' is the verb for 'ich'",
+        "Because 'Buch' is dative",
+        "Because 'Ich' is accusative here"
+      ],
+      "tr": [
+        "Çünkü 'ich' için 'habe' fiili kullanılır",
+        "'Buch' burada dativdir",
+        "'Ich' akkusativtir"
+      ]
+    },
+    "answer": {
+      "en": "Because 'habe' is the verb for 'ich'",
+      "tr": "Çünkü 'ich' için 'habe' fiili kullanılır"
+    },
+    "explanation": {
+      "en": "Observe the verb conjugation for 'haben' with 'ich'.",
+      "tr": "'Haben' fiilinin 'ich' için çekimine dikkat edin."
+    }
   }
 ]

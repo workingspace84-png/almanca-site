@@ -1,4 +1,3 @@
-
 /* ============================== */
 /* MAIN CONTENT AREA */
 /* ============================== */
@@ -38,6 +37,12 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Unit card hover */
+.unit-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+}
+
 /* ============================== */
 /* EXERCISES LIST & CARDS */
 /* ============================== */
@@ -58,6 +63,12 @@
   color: #eee;
   transition: all 0.2s ease-in-out;
   border: 1px solid #333;
+}
+
+/* Exercise card hover */
+.exercise-card:hover {
+  border-color: #f39c12;
+  background-color: #33334f;
 }
 
 .exercise-card h4 {
