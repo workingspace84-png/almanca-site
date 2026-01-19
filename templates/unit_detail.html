@@ -3,8 +3,10 @@
 {% block title %}{{ unit.title[lang] }}{% endblock %}
 
 {% block content %}
-<h2>{{ unit.title[lang] }}</h2>
-<p>{{ unit.description[lang] }}</p>
+<div class="unit-header">
+  <h2>{{ unit.title[lang] }}</h2>
+  <p>{{ unit.description[lang] }}</p>
+</div>
 
 <div class="exercise-list">
   {% for exercise in unit.exercises %}

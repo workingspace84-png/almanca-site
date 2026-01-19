@@ -1,39 +1,42 @@
 {% extends "base.html" %}
 
 {% block title %}
-Mein Deutsch Study Hall
+Intuitive German Study Lab
 {% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% endblock %}
 
+{% block meta_description %}
+{% if lang == 'tr' %}
+Intuitive German Study Lab ana sayfası: Almanca dil bilgisi ve alıştırmalarını mantık ve sezgi ile öğrenin.
+{% else %}
+Intuitive German Study Lab homepage: Learn German grammar and exercises through logic and intuition.
+{% endif %}
+{% endblock %}
+
 {% block content %}
-<section class="welcome-section">
-  <h1>Willkommen!</h1>
-  <p>Deutsch lernen leicht gemacht.</p>
-</section>
 
 {% for main_topic in HOME_STRUCTURE %}
   <section class="topic-section">
-    <h2>{{ main_topic.main_title[lang] }}</h2>
+    <!-- Ana konu başlığı -->
+    <h2>{{ main_topic.main_title }}</h2>
 
-    {% for unit in main_topic.units %}
-      <div class="unit-card">
-        <h3>{{ unit.title[lang] }}</h3>
-        <p>{{ unit.description[lang] }}</p>
-
-        <div class="exercise-list">
-          {% for exercise in unit.exercises %}
-            <a href="{{ url_for('exercise_by_key', unit_key=unit.unit_key, exercise_key=exercise.exercise_key) }}" class="exercise-card">
-              <h4>{{ exercise.title[lang] }}</h4>
+    <div class="unit-cards-container">
+      {% for unit in main_topic.units %}
+        <div class="unit-card">
+          <h3>
+            <a href="{{ url_for('unit_detail', unit_key=unit.unit_key) }}">
+              {{ unit.title }}
             </a>
-          {% endfor %}
+          </h3>
+          <p>{{ unit.description.get(lang, '') }}</p>
         </div>
+      {% endfor %}
+    </div>
 
-        <a href="{{ url_for('unit_detail', unit_key=unit.unit_key) }}" class="view-unit-btn">View All Exercises</a>
-      </div>
-    {% endfor %}
   </section>
 {% endfor %}
+
 {% endblock %}

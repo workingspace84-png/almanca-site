@@ -3,7 +3,7 @@
 /* ============================== */
 
 .main-content {
-  padding: 20px 40px;
+  padding: 20px 30px;
 }
 
 .welcome-section h1 {
@@ -19,67 +19,57 @@
 
 .topic-section h2 {
   font-size: 1.5rem;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: #f5f5f5;
 }
 
 /* ============================== */
-/* UNIT CARDS */
+/* UNIT CARDS CONTAINER – ALT ALTA DİZİM */
+/* ============================== */
+
+.unit-cards-container {
+  display: flex;
+  flex-direction: column; /* alt alta */
+  gap: 12px;              /* kutular arası boşluk daha minimal */
+  margin-bottom: 20px;
+}
+
+/* ============================== */
+/* UNIT CARDS – MINIMAL & DİKEY */
 /* ============================== */
 
 .unit-card {
   background-color: #1e1e2f;
   border: 1px solid #333;
-  border-radius: 14px;
-  padding: 20px;
-  margin-bottom: 24px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 12px;
+  padding: 12px 16px;      /* daha küçük padding */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5); /* hafif gölge */
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+  max-width: 300px;         /* maksimum genişlik sınırı */
+  word-wrap: break-word;    /* uzun yazılar alt satıra geçsin */
 }
 
 /* Unit card hover */
 .unit-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
 }
 
-/* ============================== */
-/* EXERCISES LIST & CARDS */
-/* ============================== */
-
-.exercise-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 16px;
-}
-
-.exercise-card {
-  flex: 1 1 200px;
-  background-color: #2b2b3f;
-  border-radius: 12px;
-  padding: 14px;
+/* Başlık ve açıklama renkleri */
+.unit-card h3 a {
+  color: #f5f5f5;
   text-decoration: none;
-  color: #eee;
-  transition: all 0.2s ease-in-out;
-  border: 1px solid #333;
 }
 
-/* Exercise card hover */
-.exercise-card:hover {
-  border-color: #f39c12;
-  background-color: #33334f;
+.unit-card h3 a:hover {
+  color: #f39c12;
 }
 
-.exercise-card h4 {
-  margin: 0 0 6px 0;
-  font-size: 1.05rem;
-}
-
-.exercise-card p {
-  margin: 0;
-  font-size: 0.9rem;
+.unit-card p {
   color: #ccc;
+  font-size: 0.9rem;
+  margin-top: 6px;
 }
 
 /* ============================== */
@@ -91,8 +81,8 @@
     padding: 16px 20px;
   }
 
-  .exercise-list {
-    flex-direction: column;
+  .unit-card {
+    max-width: 100%; /* küçük ekranda tam genişlik */
   }
 }
 
@@ -106,10 +96,6 @@
   }
 
   .unit-card {
-    padding: 16px;
-  }
-
-  .exercise-card {
-    flex: 1 1 100%;
+    padding: 12px 14px;
   }
 }

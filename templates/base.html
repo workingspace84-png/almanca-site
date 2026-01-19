@@ -1,40 +1,52 @@
 <!DOCTYPE html>
-<html lang="{{ lang }}">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>{% block title %}Mein Deutsch Study Hall{% endblock %}</title>
+  <title>{% block title %}Intuitive German Lab{% endblock %}</title>
 
   <!-- SEO Meta -->
-  <meta name="description" content="Mein Deutsch Study Hall – Almanca öğrenme platformu, yetişkinler için grammer ve alıştırmalar.">
-  <meta name="keywords" content="Deutsch, Almanca, Grammatik, Übungen, Erwachsene, Learning, Study">
+  <meta name="description" content="{% block meta_description %}Intuitive German Study Lab is an academic-oriented German grammar platform focused on understanding the logic, intuition, and structure behind correct usage.{% endblock %}">
   <meta name="robots" content="index, follow">
+
+
+  <!-- Canonical -->
+  <link rel="canonical" href="{{ request.url }}" />
 
   <!-- Favicon -->
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 
-  <!-- Base CSS: tüm site için -->
+  <!-- Base CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-  <!-- Header CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
-  <!-- Footer CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
-  
+
   {% block extra_css %}{% endblock %}
+  <noscript>
+  <style>
+    .lang-en { display: inline; }
+  </style>
+</noscript>
+
 </head>
 <body>
 
-  {% include 'header.html' %}
+  {% include 'header.html' with context %}
 
   <main class="main-content">
+    <!-- Global H1 (SEO + Screen Readers) -->
+      <h1 class="sr-only lang-en">Intuitive German Lab – Understanding German Grammar Through Logic and Intuition</h1>
+      <h1 class="sr-only lang-tr">Intuitive German Lab – Almanca Dil Bilgisi Mantık ve Sezgi ile Öğrenin</h1>
+
+
     {% block content %}{% endblock %}
   </main>
 
   {% include 'footer.html' %}
 
-  <!-- Header JS -->
-  <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='js/header.min.js') }}" defer></script>
   {% block extra_js %}{% endblock %}
 
 </body>

@@ -1,19 +1,19 @@
 <header class="site-header">
   <div class="header-left">
-    <a href="{{ url_for('index') }}" class="site-title">
-      Mein Deutsch Study Hall
+    <a href="{{ url_for('index', lang=lang) }}" class="site-title">
+      Intuitive German Study Lab
     </a>
   </div>
 
   <div class="header-right">
-    <div class="header-links">
-      <a href="{{ url_for('index') }}" class="header-link">Home</a>
-      <a href="{{ url_for('about') }}" class="header-link">About</a>
-    </div>
+    <nav class="header-links" aria-label="Main navigation">
+      <a href="{{ url_for('index', lang=lang) }}" class="header-link">Home</a>
+      <a href="{{ url_for('about', lang=lang) }}" class="header-link">About</a>
+    </nav>
 
-    <div class="header-lang">
-      <button class="lang-btn" data-lang="tr">TR</button>
-      <button class="lang-btn" data-lang="en">EN</button>
+    <div class="header-lang" aria-label="Language selector">
+      <button class="lang-btn" data-lang="tr" aria-label="Switch to Turkish">TR</button>
+      <button class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
     </div>
   </div>
 </header>
