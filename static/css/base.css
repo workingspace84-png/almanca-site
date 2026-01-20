@@ -174,3 +174,9 @@ footer {
   text-decoration: none;
   color: inherit;
 }
+/* OPTION BUTTON FOCUS */
+.option-btn:focus {
+  outline: 2px solid #f39c12;
+  background-color: rgba(243, 156, 18, 0.1);
+}
+

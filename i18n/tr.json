@@ -1,4 +1,6 @@
 {
   "next_button": "Sonraki Soru",
-  "completed_message": "🎉 Tüm alıştırmalar tamamlandı!"
+  "completed_message": "🎉 Tüm alıştırmalar tamamlandı!",
+  "next": "Sonraki Soru",
+  "completed": "🎉 Tüm alıştırmalar tamamlandı!"
 }

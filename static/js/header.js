@@ -13,17 +13,44 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('selectedLanguage', selectedLang);
   }
 
-  // 3️⃣ Header linklerindeki lang parametresini güncelle
-  document.querySelectorAll('a.header-link').forEach(link => {
-    const url = new URL(link.href, window.location.origin);
-    url.searchParams.set('lang', selectedLang);
-    link.href = url.toString();
+  // ✅ Başlangıçta aktif dil butonunu vurgula
+  langButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === selectedLang);
+  });
+
+  // 3️⃣ SADECE site içi linklere lang parametresi ekle
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+
+    // ❌ Dokunulmaması gerekenler
+    if (
+      !href ||
+      href.startsWith('http') ||
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:') ||
+      href.startsWith('#') ||
+      href.startsWith('javascript:')
+    ) {
+      return;
+    }
+
+    try {
+      const url = new URL(link.href, window.location.origin);
+      url.searchParams.set('lang', selectedLang);
+      link.href = url.toString();
+    } catch (e) {
+      // Güvenlik: bozuk URL varsa sessizce geç
+    }
   });
 
   // 4️⃣ Sayfadaki dil elementlerini göster/gizle
   function showLanguage(lang) {
-    document.querySelectorAll('.lang-en').forEach(el => el.style.display = (lang === 'en') ? 'inline' : 'none');
-    document.querySelectorAll('.lang-tr').forEach(el => el.style.display = (lang === 'tr') ? 'inline' : 'none');
+    document.querySelectorAll('.lang-en').forEach(el => {
+      el.style.display = (lang === 'en') ? 'inline' : 'none';
+    });
+    document.querySelectorAll('.lang-tr').forEach(el => {
+      el.style.display = (lang === 'tr') ? 'inline' : 'none';
+    });
   }
 
   // 5️⃣ Başlangıçta dili uygula
@@ -35,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const newLang = btn.getAttribute('data-lang');
       localStorage.setItem('selectedLanguage', newLang);
 
+      // Sayfayı yeni dil ile reload et
       const url = new URL(window.location.href);
       url.searchParams.set('lang', newLang);
       window.location.href = url.toString();

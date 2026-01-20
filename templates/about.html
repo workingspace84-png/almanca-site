@@ -13,8 +13,6 @@ Bu site, Almanca öğrenmek isteyen herkes için hazırlandı. Dil bilgisini man
 This site is built for anyone who wants to learn German easily. It focuses on understanding grammar through logic and intuition.
 {% endif %}
 {% endblock %}
-
-
 {% block content %}
 <section class="about-section">
 
@@ -34,44 +32,4 @@ This site is built for anyone who wants to learn German easily. It focuses on un
   </p>
 
 </section>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-  // Kullanıcının seçtiği dili localStorage'den al
-  let lang = localStorage.getItem('site_lang') || 'en';
-
-  // Tüm dilleri seç
-  const enElements = document.querySelectorAll('.lang-en');
-  const trElements = document.querySelectorAll('.lang-tr');
-
-  function showLanguage(selectedLang) {
-    if(selectedLang === 'tr') {
-      enElements.forEach(el => el.style.display = 'none');
-      trElements.forEach(el => el.style.display = 'block');
-    } else {
-      trElements.forEach(el => el.style.display = 'none');
-      enElements.forEach(el => el.style.display = 'block');
-    }
-  }
-
-document.addEventListener('DOMContentLoaded', () => {
-    showLanguage(lang);
-});
-
-  // Dil butonlarına event listener ekleyelim
-  const trBtn = document.querySelector('.lang-btn[data-lang="tr"]');
-  const enBtn = document.querySelector('.lang-btn[data-lang="en"]');
-
-  if(trBtn && enBtn) {
-    trBtn.addEventListener('click', () => {
-      localStorage.setItem('site_lang', 'tr');
-      showLanguage('tr');
-    });
-    enBtn.addEventListener('click', () => {
-      localStorage.setItem('site_lang', 'en');
-      showLanguage('en');
-    });
-  }
-</script>
 {% endblock %}

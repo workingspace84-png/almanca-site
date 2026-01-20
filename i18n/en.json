@@ -1,4 +1,6 @@
 {
   "next_button": "Next Question",
-  "completed_message": "🎉 All exercises completed!"
+  "completed_message": "🎉 All exercises completed!",
+  "next": "Next Question",
+  "completed": "🎉 All exercises completed!"
 }

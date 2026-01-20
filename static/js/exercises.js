@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // i18n ile Next Question metni dinamik
-    nextBtn.innerText = window.I18N?.nextButton || "Next Question";
+    nextBtn.innerText = window.I18N?.next || "Next Question";
     nextBtn.style.display = "inline-block";
   }
 
