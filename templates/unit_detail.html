@@ -1,18 +1,28 @@
 {% extends "base.html" %}
 
-{% block title %}{{ unit.title[lang] }}{% endblock %}
+{% block title %}{{ unit.title[lang] if unit.title is mapping else unit.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/unit_detail.css') }}">
+{% endblock %}
 
 {% block content %}
 <div class="unit-header">
-  <h2>{{ unit.title[lang] }}</h2>
-  <p>{{ unit.description[lang] }}</p>
+  <h2>{{ unit.title[lang] if unit.title is mapping else unit.title }}</h2>
+  <p>{{ unit.description[lang] if unit.description is mapping and unit.description else unit.description }}</p>
 </div>
 
 <div class="exercise-list">
-  {% for exercise in unit.exercises %}
-    <a href="{{ url_for('exercise_by_key', unit_key=unit.unit_key, exercise_key=exercise.exercise_key) }}" class="exercise-card">
-      <h4>{{ exercise.title[lang] }}</h4>
-    </a>
-  {% endfor %}
+  {% if unit.exercises %}
+    {% for exercise in unit.exercises %}
+    <div class="exercise-item">
+      <a href="{{ url_for('exercise_by_key', unit_key=unit.unit_key, exercise_key=exercise.exercise_key) }}" class="exercise-card">
+        <h4>{{ exercise.title[lang] if exercise.title is mapping else exercise.title }}</h4>
+      </a>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="no-exercises">No exercises available yet.</p>
+  {% endif %}
 </div>
 {% endblock %}
