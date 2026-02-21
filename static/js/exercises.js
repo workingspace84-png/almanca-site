@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let correctCount = 0;
   let locked = false;
 
+  // Safely escape text to prevent XSS
+  function escapeHTML(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
   // Fisher-Yates shuffle
   function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -23,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check if EXERCISE_DATA is defined
   if (!window.EXERCISE_DATA) {
     console.error("EXERCISE_DATA is not defined");
-    questionEl.innerText = "Exercise configuration error.";
+    questionEl.textContent = "Exercise configuration error.";
     return;
   }
 
@@ -37,48 +44,62 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       questions = Array.isArray(data) ? data : [data];
       if (questions.length === 0) {
-        questionEl.innerText = "No exercises found.";
+        questionEl.textContent = "No exercises found.";
         return;
       }
       showQuestion();
     })
     .catch(err => {
-      questionEl.innerText = "Failed to load exercises.";
+      questionEl.textContent = "Failed to load exercises.";
       console.error("Error loading exercises:", err);
     });
 
   function showQuestion() {
     if (currentIndex >= questions.length) {
-      questionEl.innerHTML = window.I18N?.completedMessage || "🎉 All exercises completed!";
+      questionEl.textContent = window.I18N?.completedMessage || "\u{1F389} All exercises completed!";
       optionsEl.innerHTML = "";
-      feedbackEl.innerHTML = "";
+      feedbackEl.textContent = "";
       nextBtn.style.display = "none";
-      scoreEl.innerText = lang === "tr"
-        ? `Doğru cevaplar: ${correctCount} / ${questions.length}`
+      scoreEl.textContent = lang === "tr"
+        ? `Do\u011fru cevaplar: ${correctCount} / ${questions.length}`
         : `Correct answers: ${correctCount} / ${questions.length}`;
       return;
     }
 
     locked = false;
     optionsEl.innerHTML = "";
-    feedbackEl.innerHTML = "";
+    feedbackEl.textContent = "";
     nextBtn.style.display = "none";
 
     const q = questions[currentIndex];
 
-    // Display German sentence
-    questionEl.innerHTML = `<strong>${q.sentence_de || ""}</strong>`;
+    // Build question content safely using DOM elements
+    questionEl.innerHTML = "";
 
-    // Display translation in user's language
+    // German sentence (bold)
+    const sentenceStrong = document.createElement("strong");
+    sentenceStrong.textContent = q.sentence_de || "";
+    questionEl.appendChild(sentenceStrong);
+
+    // Translation in user's language
     const translationKey = `translation_${lang}`;
     if (q[translationKey]) {
-      questionEl.innerHTML += `<br><em style="color:#aaa; font-size:0.9rem;">${q[translationKey]}</em>`;
+      questionEl.appendChild(document.createElement("br"));
+      const translationEm = document.createElement("em");
+      translationEm.style.color = "#aaa";
+      translationEm.style.fontSize = "0.9rem";
+      translationEm.textContent = q[translationKey];
+      questionEl.appendChild(translationEm);
     }
 
-    // Display the actual question text
+    // Actual question text
     const questionKey = `question_${lang}`;
     if (q[questionKey]) {
-      questionEl.innerHTML += `<br><br>${q[questionKey]}`;
+      questionEl.appendChild(document.createElement("br"));
+      questionEl.appendChild(document.createElement("br"));
+      const questionSpan = document.createElement("span");
+      questionSpan.textContent = q[questionKey];
+      questionEl.appendChild(questionSpan);
     }
 
     // Build options list from the question data
@@ -105,8 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Progress indicator
-    scoreEl.innerText = lang === "tr"
-      ? `Soru ${currentIndex + 1} / ${questions.length} | Doğru: ${correctCount}`
+    scoreEl.textContent = lang === "tr"
+      ? `Soru ${currentIndex + 1} / ${questions.length} | Do\u011fru: ${correctCount}`
       : `Question ${currentIndex + 1} / ${questions.length} | Correct: ${correctCount}`;
   }
 
@@ -125,27 +146,44 @@ document.addEventListener("DOMContentLoaded", () => {
     // Get explanation for current language
     const explanation = question[`explanation_${lang}`] || "";
 
+    // Build feedback safely using DOM
+    feedbackEl.innerHTML = "";
+
     if (isCorrect) {
       btn.classList.add("option-correct");
       correctCount++;
-      feedbackEl.innerHTML = `
-        ✅ <strong>${lang === "tr" ? "Doğru" : "Correct"}</strong><br>
-        <em>${lang === "tr" ? "Açıklama:" : "Explanation:"}</em> ${explanation}<br>
-      `;
+
+      const icon = document.createTextNode("\u2705 ");
+      const label = document.createElement("strong");
+      label.textContent = lang === "tr" ? "Do\u011fru" : "Correct";
+      const br1 = document.createElement("br");
+      const explLabel = document.createElement("em");
+      explLabel.textContent = lang === "tr" ? "A\u00e7\u0131klama: " : "Explanation: ";
+      const explText = document.createTextNode(explanation);
+
+      feedbackEl.append(icon, label, br1, explLabel, explText);
     } else {
       btn.classList.add("option-wrong");
-      // Highlight the correct option button in green
       const correctBtn = document.querySelector('#options button[data-correct="true"]');
       if (correctBtn) correctBtn.classList.add("option-correct");
-      feedbackEl.innerHTML = `
-        ❌ <strong>${lang === "tr" ? "Yanlış" : "Incorrect"}</strong><br>
-        <em>${lang === "tr" ? "Doğru cevap:" : "Correct answer:"}</em> ${correctDisplay}<br>
-        <em>${lang === "tr" ? "Açıklama:" : "Explanation:"}</em> ${explanation}<br>
-      `;
+
+      const icon = document.createTextNode("\u274C ");
+      const label = document.createElement("strong");
+      label.textContent = lang === "tr" ? "Yanl\u0131\u015f" : "Incorrect";
+      const br1 = document.createElement("br");
+      const ansLabel = document.createElement("em");
+      ansLabel.textContent = lang === "tr" ? "Do\u011fru cevap: " : "Correct answer: ";
+      const ansText = document.createTextNode(correctDisplay);
+      const br2 = document.createElement("br");
+      const explLabel = document.createElement("em");
+      explLabel.textContent = lang === "tr" ? "A\u00e7\u0131klama: " : "Explanation: ";
+      const explText = document.createTextNode(explanation);
+
+      feedbackEl.append(icon, label, br1, ansLabel, ansText, br2, explLabel, explText);
     }
 
     // Show next button
-    nextBtn.innerText = window.I18N?.nextButton || "Next Question";
+    nextBtn.textContent = window.I18N?.nextButton || "Next Question";
     nextBtn.style.display = "inline-block";
   }
 

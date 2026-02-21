@@ -1,11 +1,79 @@
 from flask import Flask, render_template, jsonify, request, send_from_directory, abort
 from flask_compress import Compress
+from flask_talisman import Talisman
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import os
 import json
 
 from webapp.config.home_structure.home_structure import LEVEL_STRUCTURE, LEVELS_ORDER
 
 app = Flask(__name__)
+
+# =========================
+# SECURITY CONFIG
+# =========================
+
+# Secret key (set a real one on Render as env variable SECRET_KEY)
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-fallback-change-me')
+
+# Supported languages whitelist
+ALLOWED_LANGS = {'en', 'tr'}
+
+
+def get_lang():
+    """Get and validate the language parameter"""
+    lang = request.args.get("lang", "en")
+    return lang if lang in ALLOWED_LANGS else "en"
+
+
+# Content Security Policy — allows self + Google Analytics
+csp = {
+    'default-src': "'self'",
+    'script-src': [
+        "'self'",
+        'https://www.googletagmanager.com',
+        'https://www.google-analytics.com',
+        "'unsafe-inline'"
+    ],
+    'style-src': [
+        "'self'",
+        "'unsafe-inline'"
+    ],
+    'img-src': [
+        "'self'",
+        'https://www.google-analytics.com',
+        'https://www.googletagmanager.com',
+        'data:'
+    ],
+    'connect-src': [
+        "'self'",
+        'https://www.google-analytics.com',
+        'https://analytics.google.com',
+        'https://www.googletagmanager.com'
+    ],
+    'font-src': "'self'",
+    'frame-ancestors': "'none'"
+}
+
+# Flask-Talisman: security headers (CSP, HSTS, X-Frame, nosniff, etc.)
+Talisman(
+    app,
+    content_security_policy=csp,
+    force_https=False,  # Render handles HTTPS termination
+    session_cookie_secure=True,
+    session_cookie_http_only=True,
+    session_cookie_samesite='Lax',
+    referrer_policy='strict-origin-when-cross-origin'
+)
+
+# Flask-Limiter: rate limiting (uses client IP)
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["60 per minute"],
+    storage_uri="memory://"
+)
 
 # Gzip compression — makes CSS/JS/JSON ~70% smaller
 Compress(app)
@@ -22,8 +90,7 @@ def load_exercises():
     try:
         with open(EXERCISES_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
-    except Exception as e:
-        print(f"Error loading exercises: {e}")
+    except Exception:
         return []
 
 
@@ -49,7 +116,7 @@ def translate_filter(text, lang='en'):
 
 @app.route("/")
 def index():
-    lang = request.args.get("lang", "en")
+    lang = get_lang()
     return render_template(
         "index.html",
         LEVELS_ORDER=LEVELS_ORDER,
@@ -60,7 +127,7 @@ def index():
 @app.route("/level/<level_key>")
 def level_detail(level_key):
     """Display all exercises under a CEFR level"""
-    lang = request.args.get("lang", "en")
+    lang = get_lang()
     level_key_upper = level_key.upper()
     level = LEVEL_STRUCTURE.get(level_key_upper)
     if not level:
@@ -70,7 +137,7 @@ def level_detail(level_key):
 
 @app.route("/about")
 def about():
-    lang = request.args.get("lang", "en")
+    lang = get_lang()
     return render_template("about.html", lang=lang)
 
 
@@ -78,7 +145,7 @@ def about():
 @app.route("/exercise/<level_key>/<exercise_key>")
 def exercise_by_key(level_key, exercise_key):
     """Single exercise page"""
-    lang = request.args.get("lang", "en")
+    lang = get_lang()
 
     level_key_upper = level_key.upper()
     level_data = LEVEL_STRUCTURE.get(level_key_upper)
@@ -110,12 +177,14 @@ def exercise_by_key(level_key, exercise_key):
 # =========================
 
 @app.route("/api/exercises", methods=["GET"])
+@limiter.limit("30 per minute")
 def get_exercises():
     """Return all exercises as JSON"""
     return jsonify(load_exercises())
 
 
 @app.route("/api/exercises/<int:exercise_id>", methods=["GET"])
+@limiter.limit("30 per minute")
 def get_exercise_by_id(exercise_id):
     """Return single exercise as JSON"""
     exercises = load_exercises()
@@ -128,21 +197,13 @@ def get_exercise_by_id(exercise_id):
 
 
 @app.route("/api/exercises/<level_key>/<exercise_key>", methods=["GET"])
+@limiter.limit("30 per minute")
 def get_exercises_by_level_category(level_key, exercise_key):
-    """Return all questions for a given level + exercise_key.
-    exercise_key (e.g. a1_ex_1) maps to category (e.g. exercise_1) in the JSON.
-    The category value is everything after the first underscore-separated level prefix,
-    e.g. a1_ex_1 -> ex_1, but we store it as exercise_1, so we strip the level prefix.
-    Simpler: category in JSON IS exercise_key with the leading level tag removed.
-    Convention: a1_ex_1 -> category = exercise_1 (drop 'a1_' prefix).
-    """
+    """Return all questions for a given level + exercise_key."""
     exercises = load_exercises()
 
-    # Derive category from exercise_key: "a1_ex_1" -> "exercise_1"
-    # Strip leading level prefix (everything up to and including the first '_')
     parts = exercise_key.split("_", 1)
-    category = parts[1] if len(parts) == 2 else exercise_key  # "ex_1"
-    # Normalise: "ex_1" -> "exercise_1"
+    category = parts[1] if len(parts) == 2 else exercise_key
     category = category.replace("ex_", "exercise_")
 
     filtered = [
@@ -158,18 +219,29 @@ def get_exercises_by_level_category(level_key, exercise_key):
 
 
 @app.route("/api/answer", methods=["POST"])
+@limiter.limit("20 per minute")
 def check_answer():
-    """Check user's answer"""
+    """Check user's answer with input validation"""
     data = request.get_json()
     if not data or "id" not in data or "answer" not in data:
         return jsonify({"error": "Missing parameters"}), 400
+
+    # Validate types
+    if not isinstance(data["id"], int):
+        return jsonify({"error": "Invalid id"}), 400
+    if not isinstance(data["answer"], str) or len(data["answer"]) > 500:
+        return jsonify({"error": "Invalid answer"}), 400
+
+    # Validate lang
+    lang = data.get("lang", "de")
+    if lang not in ALLOWED_LANGS and lang != "de":
+        lang = "de"
 
     exercises = load_exercises()
     question = next((q for q in exercises if q["id"] == data["id"]), None)
     if not question:
         return jsonify({"error": "Question not found"}), 404
 
-    lang = data.get("lang", "de")
     is_correct = data["answer"] == question["answer"].get(lang, "")
     return jsonify({
         "correct": is_correct,
@@ -180,7 +252,7 @@ def check_answer():
 @app.route("/api/i18n/<lang>.json")
 def get_translations(lang):
     """Serve translation files from static/i18n/"""
-    if lang not in ['en', 'tr']:
+    if lang not in ALLOWED_LANGS:
         return jsonify({"error": "Language not supported"}), 404
     return send_from_directory('static/i18n', f'{lang}.json')
 
@@ -205,14 +277,19 @@ def sitemap():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    lang = request.args.get("lang", "en")
+    lang = get_lang()
     return render_template("404.html", lang=lang), 404
 
 
 @app.errorhandler(500)
 def internal_error(e):
-    lang = request.args.get("lang", "en")
+    lang = get_lang()
     return render_template("500.html", lang=lang), 500
+
+
+@app.errorhandler(429)
+def rate_limit_exceeded(e):
+    return jsonify({"error": "Too many requests. Please slow down."}), 429
 
 
 if __name__ == "__main__":
