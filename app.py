@@ -1,10 +1,17 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, send_from_directory, abort
+from flask_compress import Compress
 import os
 import json
 
-from webapp.config.home_structure.home_structure import HOME_STRUCTURE
+from webapp.config.home_structure.home_structure import LEVEL_STRUCTURE, LEVELS_ORDER
 
 app = Flask(__name__)
+
+# Gzip compression — makes CSS/JS/JSON ~70% smaller
+Compress(app)
+
+# Cache static files for 1 year (they're versioned by content)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 EXERCISES_FILE = os.path.join(BASE_DIR, 'data', 'exercises', 'exercises.json')
@@ -45,9 +52,20 @@ def index():
     lang = request.args.get("lang", "en")
     return render_template(
         "index.html",
-        HOME_STRUCTURE=HOME_STRUCTURE,
+        LEVELS_ORDER=LEVELS_ORDER,
         lang=lang
     )
+
+
+@app.route("/level/<level_key>")
+def level_detail(level_key):
+    """Display all exercises under a CEFR level"""
+    lang = request.args.get("lang", "en")
+    level_key_upper = level_key.upper()
+    level = LEVEL_STRUCTURE.get(level_key_upper)
+    if not level:
+        abort(404)
+    return render_template("level_detail.html", level=level, lang=lang)
 
 
 @app.route("/about")
@@ -56,46 +74,34 @@ def about():
     return render_template("about.html", lang=lang)
 
 
-@app.route("/unit/<unit_key>")
-def unit_detail(unit_key):
-    """Unit altındaki tüm egzersizleri gösterir"""
-    lang = request.args.get("lang", "en")
-    unit = None
-    for section in HOME_STRUCTURE:
-        for u in section["units"]:
-            if u["unit_key"] == unit_key:
-                unit = u
-                break
-    if not unit:
-        return "Unit not found", 404
-    return render_template("unit_detail.html", unit=unit, lang=lang)
 
-
-@app.route("/exercise/<unit_key>/<exercise_key>")
-def exercise_by_key(unit_key, exercise_key):
-    """
-    Tek egzersiz sayfası.
-    exercise_id HOME_STRUCTURE üzerinden bulunur ve template'e gönderilir.
-    """
+@app.route("/exercise/<level_key>/<exercise_key>")
+def exercise_by_key(level_key, exercise_key):
+    """Single exercise page"""
     lang = request.args.get("lang", "en")
 
-    # HOME_STRUCTURE üzerinden exercise_id bul
-    found_exercise_id = None
-    for section in HOME_STRUCTURE:
-        for unit in section["units"]:
-            if unit["unit_key"] == unit_key:
-                for ex in unit.get("exercises", []):
-                    if ex["exercise_key"] == exercise_key:
-                        found_exercise_id = ex["exercise_id"]
-                        break
+    level_key_upper = level_key.upper()
+    level_data = LEVEL_STRUCTURE.get(level_key_upper)
+    if not level_data:
+        abort(404)
 
-    if found_exercise_id is None:
-        return "Exercise not found", 404
+    found_exercise = next(
+        (ex for ex in level_data.get("exercises", []) if ex["exercise_key"] == exercise_key),
+        None
+    )
+    if not found_exercise:
+        abort(404)
+
+    exercise_title = found_exercise.get("title", {})
+    if isinstance(exercise_title, dict):
+        exercise_title = exercise_title.get(lang, exercise_key)
 
     return render_template(
         "exercise.html",
         lang=lang,
-        exercise_id=found_exercise_id  # ✅ JS için gerekli
+        level_key=level_key_upper,
+        exercise_key=exercise_key,
+        exercise_title=exercise_title
     )
 
 
@@ -105,13 +111,13 @@ def exercise_by_key(unit_key, exercise_key):
 
 @app.route("/api/exercises", methods=["GET"])
 def get_exercises():
-    """Tüm egzersizleri JSON olarak döndürür"""
+    """Return all exercises as JSON"""
     return jsonify(load_exercises())
 
 
 @app.route("/api/exercises/<int:exercise_id>", methods=["GET"])
 def get_exercise_by_id(exercise_id):
-    """Tek egzersizi JSON olarak döndürür"""
+    """Return single exercise as JSON"""
     exercises = load_exercises()
     exercise = next((ex for ex in exercises if ex["id"] == exercise_id), None)
 
@@ -121,9 +127,39 @@ def get_exercise_by_id(exercise_id):
     return jsonify(exercise)
 
 
+@app.route("/api/exercises/<level_key>/<exercise_key>", methods=["GET"])
+def get_exercises_by_level_category(level_key, exercise_key):
+    """Return all questions for a given level + exercise_key.
+    exercise_key (e.g. a1_ex_1) maps to category (e.g. exercise_1) in the JSON.
+    The category value is everything after the first underscore-separated level prefix,
+    e.g. a1_ex_1 -> ex_1, but we store it as exercise_1, so we strip the level prefix.
+    Simpler: category in JSON IS exercise_key with the leading level tag removed.
+    Convention: a1_ex_1 -> category = exercise_1 (drop 'a1_' prefix).
+    """
+    exercises = load_exercises()
+
+    # Derive category from exercise_key: "a1_ex_1" -> "exercise_1"
+    # Strip leading level prefix (everything up to and including the first '_')
+    parts = exercise_key.split("_", 1)
+    category = parts[1] if len(parts) == 2 else exercise_key  # "ex_1"
+    # Normalise: "ex_1" -> "exercise_1"
+    category = category.replace("ex_", "exercise_")
+
+    filtered = [
+        ex for ex in exercises
+        if ex.get("level", "").upper() == level_key.upper()
+        and ex.get("exercise", "") == category
+    ]
+
+    if not filtered:
+        return jsonify({"error": "No exercises found"}), 404
+
+    return jsonify(filtered)
+
+
 @app.route("/api/answer", methods=["POST"])
 def check_answer():
-    """Kullanıcının cevabını kontrol eder"""
+    """Check user's answer"""
     data = request.get_json()
     if not data or "id" not in data or "answer" not in data:
         return jsonify({"error": "Missing parameters"}), 400
@@ -141,5 +177,43 @@ def check_answer():
     })
 
 
+@app.route("/api/i18n/<lang>.json")
+def get_translations(lang):
+    """Serve translation files from static/i18n/"""
+    if lang not in ['en', 'tr']:
+        return jsonify({"error": "Language not supported"}), 404
+    return send_from_directory('static/i18n', f'{lang}.json')
+
+
+# =========================
+# SEO: robots.txt & sitemap
+# =========================
+
+@app.route("/robots.txt")
+def robots():
+    return send_from_directory('static', 'robots.txt', mimetype='text/plain')
+
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
+
+
+# =========================
+# ERROR PAGES
+# =========================
+
+@app.errorhandler(404)
+def page_not_found(e):
+    lang = request.args.get("lang", "en")
+    return render_template("404.html", lang=lang), 404
+
+
+@app.errorhandler(500)
+def internal_error(e):
+    lang = request.args.get("lang", "en")
+    return render_template("500.html", lang=lang), 500
+
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5600)
+    app.run(debug=False, port=5600)

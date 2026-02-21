@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}500 – Server Error{% endblock %}
+
+{% block content %}
+<div style="text-align:center; padding:80px 20px;">
+  <h2 style="font-size:2.5rem; margin-bottom:12px; color:var(--heading-color);">500</h2>
+  <p class="lang-en" style="color:var(--text-muted); font-size:1.1rem;">Something went wrong. Please try again later.</p>
+  <p class="lang-tr" style="color:var(--text-muted); font-size:1.1rem;">Bir sorun oluştu. Lütfen daha sonra tekrar deneyin.</p>
+  <a href="/?lang={{ lang }}" style="display:inline-block; margin-top:24px; padding:10px 24px; border:1px solid var(--border-color); border-radius:var(--radius-small); color:var(--text-color);">
+    <span class="lang-en">Back to Home</span>
+    <span class="lang-tr">Ana Sayfaya Dön</span>
+  </a>
+</div>
+{% endblock %}

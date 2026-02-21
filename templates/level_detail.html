@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{{ level.level }} – Intuitive German Institute{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/unit_detail.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="level-detail-wrap">
+
+  <a href="{{ url_for('index', lang=lang) }}" class="back-link">‹ Back</a>
+
+  <div class="level-header">
+    <h2>{{ level.level }}</h2>
+    <p>{{ level.description.get(lang, '') }}</p>
+  </div>
+
+  {% if level.exercises %}
+  <div class="exercise-list">
+    {% for exercise in level.exercises %}
+    <a href="{{ url_for('exercise_by_key', level_key=level.level, exercise_key=exercise.exercise_key) }}?lang={{ lang }}" class="exercise-card">
+      <h4>{{ exercise.title[lang] if exercise.title is mapping else exercise.title }}</h4>
+      <span class="exercise-card-arrow">›</span>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="no-exercises">No exercises available yet.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

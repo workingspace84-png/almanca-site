@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ unit.title[lang] if unit.title is mapping else unit.title }}{% endblock %}
+{% block title %}{{ unit.title if unit.title is string else unit.title[lang] }}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/unit_detail.css') }}">
@@ -8,21 +8,37 @@
 
 {% block content %}
 <div class="unit-header">
-  <h2>{{ unit.title[lang] if unit.title is mapping else unit.title }}</h2>
-  <p>{{ unit.description[lang] if unit.description is mapping and unit.description else unit.description }}</p>
+  <h2>{{ unit.title if unit.title is string else unit.title[lang] }}</h2>
+  <p>{{ unit.description.get(lang, '') }}</p>
 </div>
 
-<div class="exercise-list">
-  {% if unit.exercises %}
-    {% for exercise in unit.exercises %}
-    <div class="exercise-item">
-      <a href="{{ url_for('exercise_by_key', unit_key=unit.unit_key, exercise_key=exercise.exercise_key) }}" class="exercise-card">
-        <h4>{{ exercise.title[lang] if exercise.title is mapping else exercise.title }}</h4>
-      </a>
-    </div>
-    {% endfor %}
-  {% else %}
-    <p class="no-exercises">No exercises available yet.</p>
-  {% endif %}
-</div>
+{% if unit.exercises %}
+  {% set exercises_by_level = {} %}
+  {% for exercise in unit.exercises %}
+    {% set level = exercise.get('level', 'Other') %}
+    {% if level not in exercises_by_level %}
+      {% set _ = exercises_by_level.__setitem__(level, []) %}
+    {% endif %}
+    {% set _ = exercises_by_level[level].append(exercise) %}
+  {% endfor %}
+
+  {% for level in ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'Other'] %}
+    {% if level in exercises_by_level %}
+      <div class="level-section">
+        <h3 class="level-title">{{ level }}</h3>
+        <div class="exercise-list">
+          {% for exercise in exercises_by_level[level] %}
+          <div class="exercise-item">
+            <a href="{{ url_for('exercise_by_key', unit_key=unit.unit_key, exercise_key=exercise.exercise_key) }}?lang={{ lang }}" class="exercise-card">
+              <h4>{{ exercise.title[lang] if exercise.title is mapping else exercise.title }}</h4>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% else %}
+  <p class="no-exercises">No exercises available yet.</p>
+{% endif %}
 {% endblock %}

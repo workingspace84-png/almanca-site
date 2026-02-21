@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Multiple Choice Exercise{% endblock %}
+{% block title %}{{ exercise_title }} – {{ level_key }}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/exercise.css') }}">
@@ -8,25 +8,19 @@
 
 {% block content %}
 
-<!-- SAYFA BAŞLIĞI – Container dışında -->
-<h2 class="exercise-page-title">Multiple Choice Exercise</h2>
+<h2 class="exercise-page-title">{{ level_key }} – {{ exercise_title }}</h2>
 
 <div class="exercise-wrapper">
   <div class="exercise-container">
 
-    <!-- Soru -->
     <p id="question"></p>
 
-    <!-- Seçenekler -->
     <div id="options"></div>
 
-    <!-- 🔴 NEXT BUTTON: mutlaka eklenmeli -->
     <button id="nextBtn" style="display:none;">Next Question</button>
-    <!-- Feedback -->
-     
+
     <div id="feedback"></div>
 
-    <!-- Skor / ilerleme -->
     <p id="score"></p>
 
   </div>
@@ -36,14 +30,13 @@
 
 {% block extra_js %}
 <script>
-  window.LANGUAGE = "{{ lang }}";
+  window.LANGUAGE   = "{{ lang }}";
+  window.EXERCISE_DATA = "/api/exercises/{{ level_key }}/{{ exercise_key }}";
 
   window.I18N = {
-    nextButton: "{{ 'next_button' | translate(lang) }}",
-    completedMessage: "{{ 'completed_message' | translate(lang) }}"
+    nextButton:       "{{ 'Next Question' | translate(lang) }}",
+    completedMessage: "All exercises completed!"
   };
-
-  window.EXERCISE_DATA = "/api/exercises/{{ exercise_id }}";
 </script>
 
 <script src="{{ url_for('static', filename='js/exercises.js') }}"></script>

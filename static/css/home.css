@@ -1,101 +1,94 @@
 /* ============================== */
-/* MAIN CONTENT AREA */
+/* HOME PAGE – LEVEL LIST         */
 /* ============================== */
 
-.main-content {
-  padding: 20px 30px;
-}
-
-.welcome-section h1 {
-  font-size: 1.8rem;
-  margin-bottom: 8px;
-  color: #f5f5f5;
-}
-
-.welcome-section p {
-  color: #ccc;
-  margin-bottom: 24px;
-}
-
-.topic-section h2 {
-  font-size: 1.5rem;
-  margin-bottom: 12px;
-  color: #f5f5f5;
-}
-
-/* ============================== */
-/* UNIT CARDS CONTAINER – ALT ALTA DİZİM */
-/* ============================== */
-
-.unit-cards-container {
+.levels-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px 20px;
   display: flex;
-  flex-direction: column; /* alt alta */
-  gap: 12px;              /* kutular arası boşluk daha minimal */
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 14px;
 }
 
-/* ============================== */
-/* UNIT CARDS – MINIMAL & DİKEY */
-/* ============================== */
-
-.unit-card {
+/* ---- Level row card ---- */
+.level-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
   background-color: #1e1e2f;
-  border: 1px solid #333;
-  border-radius: 12px;
-  padding: 12px 16px;      /* daha küçük padding */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5); /* hafif gölge */
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  width: 100%;
-  max-width: 300px;         /* maksimum genişlik sınırı */
-  word-wrap: break-word;    /* uzun yazılar alt satıra geçsin */
-}
-
-/* Unit card hover */
-.unit-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-}
-
-/* Başlık ve açıklama renkleri */
-.unit-card h3 a {
-  color: #f5f5f5;
+  border: 1px solid #2a2a3d;
+  border-radius: 14px;
+  padding: 18px 24px;
   text-decoration: none;
+  color: inherit;
+  min-height: 64px;          /* comfortable tap target */
+  transition: background-color 0.18s ease,
+              border-color 0.18s ease,
+              transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.unit-card h3 a:hover {
-  color: #f39c12;
+.level-card:hover,
+.level-card:focus-visible {
+  background-color: #24243a;
+  border-color: #c0c0c0;
+  transform: translateX(4px);
+  outline: none;
 }
 
-.unit-card p {
-  color: #ccc;
-  font-size: 0.9rem;
-  margin-top: 6px;
+/* Badge: the A1 / B2 etc. label */
+.level-badge {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e5e5e5;
+  letter-spacing: 1px;
+  min-width: 48px;
+  flex-shrink: 0;
+}
+
+/* Arrow indicator */
+.level-card-arrow {
+  margin-left: auto;
+  font-size: 1.1rem;
+  color: #555;
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.level-card:hover .level-card-arrow,
+.level-card:focus-visible .level-card-arrow {
+  color: #c0c0c0;
+  transform: translateX(3px);
 }
 
 /* ============================== */
-/* RESPONSIVE FOR HOME PAGE CARDS */
+/* RESPONSIVE                     */
 /* ============================== */
 
 @media (max-width: 768px) {
-  .main-content {
-    padding: 16px 20px;
+  .levels-container {
+    padding: 28px 18px;
+    gap: 12px;
   }
 
-  .unit-card {
-    max-width: 100%; /* küçük ekranda tam genişlik */
+  .level-card {
+    padding: 16px 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .welcome-section h1 {
-    font-size: 1.5rem;
+  .levels-container {
+    padding: 20px 16px;
+    gap: 10px;
   }
 
-  .topic-section h2 {
-    font-size: 1.25rem;
+  .level-card {
+    padding: 16px 18px;
+    min-height: 58px;
   }
 
-  .unit-card {
-    padding: 12px 14px;
+  .level-badge {
+    font-size: 1.3rem;
+    min-width: 42px;
   }
 }

@@ -5,27 +5,46 @@ document.addEventListener("DOMContentLoaded", () => {
   const scoreEl = document.getElementById("score");
   const nextBtn = document.getElementById("nextBtn");
 
-  const lang = window.LANGUAGE || "en";  // URL param veya default en
+  const lang = window.LANGUAGE || "en";
   let questions = [];
   let currentIndex = 0;
   let correctCount = 0;
   let locked = false;
 
-  // Güvenlik: EXERCISE_DATA yoksa sessizce dur
+  // Fisher-Yates shuffle
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  // Check if EXERCISE_DATA is defined
   if (!window.EXERCISE_DATA) {
     console.error("EXERCISE_DATA is not defined");
+    questionEl.innerText = "Exercise configuration error.";
     return;
   }
 
   fetch(window.EXERCISE_DATA)
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
     .then(data => {
       questions = Array.isArray(data) ? data : [data];
+      if (questions.length === 0) {
+        questionEl.innerText = "No exercises found.";
+        return;
+      }
       showQuestion();
     })
     .catch(err => {
       questionEl.innerText = "Failed to load exercises.";
-      console.error(err);
+      console.error("Error loading exercises:", err);
     });
 
   function showQuestion() {
@@ -34,7 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
       optionsEl.innerHTML = "";
       feedbackEl.innerHTML = "";
       nextBtn.style.display = "none";
-      scoreEl.innerText = `Correct answers: ${correctCount}`;
+      scoreEl.innerText = lang === "tr"
+        ? `Doğru cevaplar: ${correctCount} / ${questions.length}`
+        : `Correct answers: ${correctCount} / ${questions.length}`;
       return;
     }
 
@@ -45,59 +66,86 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const q = questions[currentIndex];
 
-    // Her zaman Almanca cümleyi göster
-    questionEl.innerHTML = q.sentence.de || "";
+    // Display German sentence
+    questionEl.innerHTML = `<strong>${q.sentence_de || ""}</strong>`;
 
-    // Kullanıcı dilinde çeviri varsa göster
-    if (q.translation && q.translation[lang]) {
-      questionEl.innerHTML += `<br><em style="color:#aaa; font-size:0.95rem;">${q.translation[lang]}</em>`;
+    // Display translation in user's language
+    const translationKey = `translation_${lang}`;
+    if (q[translationKey]) {
+      questionEl.innerHTML += `<br><em style="color:#aaa; font-size:0.9rem;">${q[translationKey]}</em>`;
     }
 
-    // Seçenekleri güvenli şekilde hazırla
-    const optionsList = (q.options && q.options[lang]) ? q.options[lang] : [];
+    // Display the actual question text
+    const questionKey = `question_${lang}`;
+    if (q[questionKey]) {
+      questionEl.innerHTML += `<br><br>${q[questionKey]}`;
+    }
+
+    // Build options list from the question data
+    // option_1 is always the correct answer
+    const optionsList = [];
+    for (let i = 1; i <= 3; i++) {
+      const optionKey = `option_${i}_${lang}`;
+      if (q[optionKey]) {
+        optionsList.push({ text: q[optionKey], isCorrect: i === 1 });
+      }
+    }
+
+    // Shuffle so the correct answer isn't always first
+    shuffleArray(optionsList);
+
+    // Create option buttons
     optionsList.forEach(option => {
       const btn = document.createElement("button");
-      btn.textContent = option;
+      btn.textContent = option.text;
       btn.className = "option-btn";
-
-      btn.addEventListener("click", () => handleAnswer(option, q, btn));
+      if (option.isCorrect) btn.dataset.correct = "true";
+      btn.addEventListener("click", () => handleAnswer(option.isCorrect, q, btn));
       optionsEl.appendChild(btn);
     });
 
-    // Progress göstergesi
-    scoreEl.innerText = `Question ${currentIndex + 1} / ${questions.length} | Correct: ${correctCount}`;
+    // Progress indicator
+    scoreEl.innerText = lang === "tr"
+      ? `Soru ${currentIndex + 1} / ${questions.length} | Doğru: ${correctCount}`
+      : `Question ${currentIndex + 1} / ${questions.length} | Correct: ${correctCount}`;
   }
 
-  function handleAnswer(selected, question, btn) {
+  function handleAnswer(isCorrect, question, btn) {
     if (locked) return;
     locked = true;
 
-    // Tüm seçenekleri kilitle
+    // Disable all option buttons
     document.querySelectorAll("#options button").forEach(b => b.disabled = true);
 
-    // Doğru cevabı güvenli şekilde al
-    const correctAnswer = (question.answer && question.answer[lang]) ? question.answer[lang] : "";
+    // Use correct_answer field for display; fall back to option_1 if missing
+    const correctDisplay = question[`correct_answer_${lang}`]
+      || question[`option_1_${lang}`]
+      || "";
 
-    // Açıklamayı güvenli şekilde al
-    const explanation = (question.explanation && question.explanation[lang]) ? question.explanation[lang] : "";
+    // Get explanation for current language
+    const explanation = question[`explanation_${lang}`] || "";
 
-    if (selected === correctAnswer) {
+    if (isCorrect) {
       btn.classList.add("option-correct");
       correctCount++;
       feedbackEl.innerHTML = `
-        ✅ <strong>Correct</strong><br>
-        <em>Explanation:</em> ${explanation}<br>
+        ✅ <strong>${lang === "tr" ? "Doğru" : "Correct"}</strong><br>
+        <em>${lang === "tr" ? "Açıklama:" : "Explanation:"}</em> ${explanation}<br>
       `;
     } else {
       btn.classList.add("option-wrong");
+      // Highlight the correct option button in green
+      const correctBtn = document.querySelector('#options button[data-correct="true"]');
+      if (correctBtn) correctBtn.classList.add("option-correct");
       feedbackEl.innerHTML = `
-        ❌ <strong>Incorrect</strong><br>
-        <em>Explanation:</em> ${explanation}<br>
+        ❌ <strong>${lang === "tr" ? "Yanlış" : "Incorrect"}</strong><br>
+        <em>${lang === "tr" ? "Doğru cevap:" : "Correct answer:"}</em> ${correctDisplay}<br>
+        <em>${lang === "tr" ? "Açıklama:" : "Explanation:"}</em> ${explanation}<br>
       `;
     }
 
-    // i18n ile Next Question metni dinamik
-    nextBtn.innerText = window.I18N?.next || "Next Question";
+    // Show next button
+    nextBtn.innerText = window.I18N?.nextButton || "Next Question";
     nextBtn.style.display = "inline-block";
   }
 

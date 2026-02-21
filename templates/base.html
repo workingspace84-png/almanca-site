@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang|default('en') }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>{% block title %}Intuitive German Study Lab{% endblock %}</title>
+  <title>{% block title %}Intuitive German Institute{% endblock %}</title>
 
   <!-- SEO Meta -->
-  <meta name="description" content="{% block meta_description %}Intuitive German Study Lab is an academic-oriented German grammar platform focused on understanding the logic, intuition, and structure behind correct usage.{% endblock %}">
+  <meta name="description" content="{% block meta_description %}Intuitive German Institute is an academic-oriented German grammar platform focused on understanding the logic, intuition, and structure behind correct usage.{% endblock %}">
   <meta name="robots" content="index, follow">
 
 
   <!-- Canonical -->
   <link rel="canonical" href="{{ request.url }}" />
-  
+
   <link rel="alternate" href="{{ request.url_root }}?lang=en" hreflang="en">
   <link rel="alternate" href="{{ request.url_root }}?lang=tr" hreflang="tr">
 
   <!-- Favicon -->
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
 
   <!-- Base CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
@@ -32,6 +32,15 @@
   </style>
 </noscript>
 
+  <!-- Google Analytics – replace GA_MEASUREMENT_ID with your real ID when ready -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script> -->
+
 </head>
 <body>
 
@@ -39,8 +48,8 @@
 
   <main class="main-content">
     <!-- Global H1 (SEO + Screen Readers) -->
-      <h1 class="sr-only lang-en">Intuitive German Lab – Understanding German Grammar Through Logic and Intuition</h1>
-      <h1 class="sr-only lang-tr">Intuitive German Lab – Almanca Dil Bilgisi Mantık ve Sezgi ile Öğrenin</h1>
+      <h1 class="sr-only lang-en">Intuitive German Institute – Understanding German Grammar Through Logic and Intuition</h1>
+      <h1 class="sr-only lang-tr">Intuitive German Institute – Almanca Dil Bilgisi Mantık ve Sezgi ile Öğrenin</h1>
 
 
     {% block content %}{% endblock %}

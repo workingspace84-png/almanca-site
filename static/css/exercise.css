@@ -1,3 +1,8 @@
+/* Main content padding to match home page */
+.main-content {
+  padding: 20px 30px;
+}
+
 /* SAYFA BAŞLIĞI (Container dışında) */
 .exercise-page-title {
   text-align: center;
