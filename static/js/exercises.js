@@ -11,6 +11,31 @@ document.addEventListener("DOMContentLoaded", () => {
   let correctCount = 0;
   let locked = false;
 
+  // Extract level_key and exercise_key from EXERCISE_DATA URL for progress saving
+  function getExerciseInfo() {
+    try {
+      const url = window.EXERCISE_DATA || "";
+      const parts = url.split("/");
+      // URL format: /api/exercises/A1/a1_ex_1
+      const levelKey = parts[parts.length - 2];
+      const exerciseKey = parts[parts.length - 1];
+      return { levelKey, exerciseKey };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveProgress(correct, total) {
+    const info = getExerciseInfo();
+    if (!info) return;
+    const key = "progress_" + info.levelKey + "_" + info.exerciseKey;
+    try {
+      localStorage.setItem(key, JSON.stringify({ correct: correct, total: total }));
+    } catch (e) {
+      // localStorage unavailable, silently skip
+    }
+  }
+
   // Safely escape text to prevent XSS
   function escapeHTML(str) {
     const div = document.createElement("div");
@@ -63,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       scoreEl.textContent = lang === "tr"
         ? `Do\u011fru cevaplar: ${correctCount} / ${questions.length}`
         : `Correct answers: ${correctCount} / ${questions.length}`;
+      saveProgress(correctCount, questions.length);
       return;
     }
 

@@ -47,6 +47,17 @@
   flex-shrink: 0;
 }
 
+/* Progress indicator */
+.level-progress {
+  font-size: 0.85rem;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.level-progress:empty {
+  display: none;
+}
+
 /* Arrow indicator */
 .level-card-arrow {
   margin-left: auto;

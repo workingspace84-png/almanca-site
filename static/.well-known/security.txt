@@ -1,0 +1,3 @@
+Contact: mailto:security@intuitvegerman.com
+Preferred-Languages: en, tr, de
+Canonical: https://intuitvegerman.com/.well-known/security.txt

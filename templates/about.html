@@ -3,7 +3,7 @@
 {% block title %}About - Intuitive German Institute{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}?v={{ asset_hash('css/about.css') }}">
 {% endblock %}
 
 {% block meta_description %}

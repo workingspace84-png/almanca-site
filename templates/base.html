@@ -20,19 +20,40 @@
   <meta name="robots" content="index, follow">
 
 
+  <!-- Open Graph -->
+  <meta property="og:title" content="Intuitive German Institute">
+  <meta property="og:description" content="Learn German grammar through logic and intuition.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.url }}">
+  <meta property="og:locale" content="{{ 'tr_TR' if lang == 'tr' else 'en_US' }}">
+  <meta property="og:site_name" content="Intuitive German Institute">
+  <meta name="twitter:card" content="summary">
+
   <!-- Canonical -->
   <link rel="canonical" href="{{ request.url }}" />
 
   <link rel="alternate" href="{{ request.url_root }}?lang=en" hreflang="en">
   <link rel="alternate" href="{{ request.url_root }}?lang=tr" hreflang="tr">
 
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Intuitive German Institute",
+    "description": "Academic-oriented German grammar platform focused on understanding the logic and structure behind correct usage.",
+    "url": "{{ request.url_root }}",
+    "inLanguage": ["en", "tr", "de"]
+  }
+  </script>
+
   <!-- Favicon -->
   <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
 
   <!-- Base CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}?v={{ asset_hash('css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}?v={{ asset_hash('css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}?v={{ asset_hash('css/footer.css') }}">
 
   {% block extra_css %}{% endblock %}
   <noscript>
@@ -59,7 +80,7 @@
   {% include 'footer.html' %}
 
   <!-- JS -->
-  <script src="{{ url_for('static', filename='js/header.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/header.js') }}?v={{ asset_hash('js/header.js') }}" defer></script>
   {% block extra_js %}{% endblock %}
 
 </body>

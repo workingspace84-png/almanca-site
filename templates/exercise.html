@@ -3,7 +3,7 @@
 {% block title %}{{ exercise_title }} – {{ level_key }}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/exercise.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/exercise.css') }}?v={{ asset_hash('css/exercise.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -39,5 +39,5 @@
   };
 </script>
 
-<script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
+<script src="{{ url_for('static', filename='js/exercises.js') }}?v={{ asset_hash('js/exercises.js') }}"></script>
 {% endblock %}

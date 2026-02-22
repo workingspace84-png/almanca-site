@@ -95,6 +95,17 @@
   color: #f5f5f5;
 }
 
+/* ---- Exercise score badge ---- */
+.exercise-score {
+  font-size: 0.85rem;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.exercise-score:empty {
+  display: none;
+}
+
 .exercise-card-arrow {
   margin-left: auto;
   font-size: 1.1rem;

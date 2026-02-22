@@ -3,8 +3,11 @@ from flask_compress import Compress
 from flask_talisman import Talisman
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_wtf.csrf import CSRFProtect
 import os
 import json
+import logging
+import hashlib
 
 from webapp.config.home_structure.home_structure import LEVEL_STRUCTURE, LEVELS_ORDER
 
@@ -75,6 +78,18 @@ limiter = Limiter(
     storage_uri="memory://"
 )
 
+# CSRF protection for POST endpoints
+csrf = CSRFProtect(app)
+
+
+# Permissions-Policy: disable browser features we don't use
+@app.after_request
+def add_permissions_policy(response):
+    response.headers['Permissions-Policy'] = (
+        'camera=(), microphone=(), geolocation=(), payment=()'
+    )
+    return response
+
 # Gzip compression — makes CSS/JS/JSON ~70% smaller
 Compress(app)
 
@@ -84,14 +99,67 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 EXERCISES_FILE = os.path.join(BASE_DIR, 'data', 'exercises', 'exercises.json')
 
+# =========================
+# EXERCISE DATA (loaded once at startup)
+# =========================
+REQUIRED_FIELDS = ['id', 'level', 'exercise', 'sentence_de',
+                   'option_1_en', 'option_1_tr', 'question_en', 'question_tr']
 
-def load_exercises():
-    """Load exercises JSON file safely"""
+
+def _load_and_validate_exercises():
+    """Load exercises from disk, validate required fields, cache in memory."""
     try:
         with open(EXERCISES_FILE, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception:
+            data = json.load(f)
+    except FileNotFoundError:
+        app.logger.error("exercises.json not found at %s", EXERCISES_FILE)
         return []
+    except json.JSONDecodeError as e:
+        app.logger.error("exercises.json is invalid JSON: %s", e)
+        return []
+
+    valid = []
+    for i, q in enumerate(data):
+        missing = [f for f in REQUIRED_FIELDS if f not in q]
+        if missing:
+            app.logger.warning("Exercise index %d (id=%s) missing fields: %s — skipped",
+                               i, q.get('id', '?'), missing)
+            continue
+        valid.append(q)
+
+    app.logger.info("Loaded %d exercises (%d skipped)", len(valid), len(data) - len(valid))
+    return valid
+
+
+EXERCISES_CACHE = _load_and_validate_exercises()
+
+
+def load_exercises():
+    """Return cached exercises list."""
+    return EXERCISES_CACHE
+
+
+# =========================
+# STATIC ASSET CACHE BUSTING
+# =========================
+def _file_hash(filepath, length=8):
+    """Generate a short hash from file contents for cache busting."""
+    try:
+        with open(os.path.join(BASE_DIR, 'static', filepath), 'rb') as f:
+            return hashlib.md5(f.read()).hexdigest()[:length]
+    except Exception:
+        return '0'
+
+
+@app.context_processor
+def asset_version():
+    """Make asset_hash() available in all templates."""
+    cache = {}
+    def asset_hash(filepath):
+        if filepath not in cache:
+            cache[filepath] = _file_hash(filepath)
+        return cache[filepath]
+    return dict(asset_hash=asset_hash)
 
 
 # =========================
@@ -120,6 +188,7 @@ def index():
     return render_template(
         "index.html",
         LEVELS_ORDER=LEVELS_ORDER,
+        LEVEL_STRUCTURE=LEVEL_STRUCTURE,
         lang=lang
     )
 
@@ -269,6 +338,21 @@ def robots():
 @app.route("/sitemap.xml")
 def sitemap():
     return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
+
+
+@app.route("/.well-known/security.txt")
+def security_txt():
+    return send_from_directory('static/.well-known', 'security.txt', mimetype='text/plain')
+
+
+# =========================
+# HEALTH CHECK
+# =========================
+
+@app.route("/health")
+@limiter.exempt
+def health():
+    return jsonify({"status": "ok", "exercises": len(EXERCISES_CACHE)})
 
 
 # =========================
