@@ -73,6 +73,18 @@
   border-color: #555;
 }
 
+.option-btn.option-correct {
+  border-color: #4caf50;
+  background-color: rgba(76, 175, 80, 0.15);
+  color: #eee;
+}
+
+.option-btn.option-wrong {
+  border-color: #f44336;
+  background-color: rgba(244, 67, 54, 0.15);
+  color: #eee;
+}
+
 /* NEXT BUTTON */
 #nextBtn {
     display: none;         /* sayfa yüklenince gizli */

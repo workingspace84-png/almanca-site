@@ -8,6 +8,7 @@ import os
 import json
 import logging
 import hashlib
+from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -172,14 +173,14 @@ def _file_hash(filepath, length=8):
 
 
 @app.context_processor
-def asset_version():
-    """Make asset_hash() available in all templates."""
-    cache = {}
+def template_globals():
+    """Make asset_hash() and now() available in all templates."""
+    hash_cache = {}
     def asset_hash(filepath):
-        if filepath not in cache:
-            cache[filepath] = _file_hash(filepath)
-        return cache[filepath]
-    return dict(asset_hash=asset_hash)
+        if filepath not in hash_cache:
+            hash_cache[filepath] = _file_hash(filepath)
+        return hash_cache[filepath]
+    return dict(asset_hash=asset_hash, now=datetime.utcnow)
 
 
 # =========================
@@ -189,7 +190,10 @@ TRANSLATIONS = {
     "Explanation": {"en": "Explanation", "tr": "Açıklama"},
     "Answer": {"en": "Answer", "tr": "Cevap"},
     "Next Question": {"en": "Next Question", "tr": "Sonraki Soru"},
-    "All exercises completed!": {"en": "All exercises completed!", "tr": "Tüm alıştırmalar tamamlandı!"}
+    "All exercises completed!": {"en": "All exercises completed!", "tr": "Tüm alıştırmalar tamamlandı!"},
+    "Exercise configuration error.": {"en": "Exercise configuration error.", "tr": "Alıştırma yapılandırma hatası."},
+    "No exercises found.": {"en": "No exercises found.", "tr": "Alıştırma bulunamadı."},
+    "Failed to load exercises.": {"en": "Failed to load exercises.", "tr": "Alıştırmalar yüklenemedi."}
 }
 
 

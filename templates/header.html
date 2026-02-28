@@ -7,8 +7,14 @@
 
   <div class="header-right">
     <nav class="header-links" aria-label="Main navigation">
-      <a href="{{ url_for('index', lang=lang) }}" class="header-link">Home</a>
-      <a href="{{ url_for('about', lang=lang) }}" class="header-link">About</a>
+      <a href="{{ url_for('index', lang=lang) }}" class="header-link">
+        <span class="lang-en">Home</span>
+        <span class="lang-tr">Ana Sayfa</span>
+      </a>
+      <a href="{{ url_for('about', lang=lang) }}" class="header-link">
+        <span class="lang-en">About</span>
+        <span class="lang-tr">Hakkında</span>
+      </a>
     </nav>
 
     <div class="header-divider" aria-hidden="true"></div>

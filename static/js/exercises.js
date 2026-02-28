@@ -36,13 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Safely escape text to prevent XSS
-  function escapeHTML(str) {
-    const div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
-  }
-
   // Fisher-Yates shuffle
   function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -55,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check if EXERCISE_DATA is defined
   if (!window.EXERCISE_DATA) {
     console.error("EXERCISE_DATA is not defined");
-    questionEl.textContent = "Exercise configuration error.";
+    questionEl.textContent = window.I18N?.configError || "Exercise configuration error.";
     return;
   }
 
@@ -69,13 +62,13 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       questions = Array.isArray(data) ? data : [data];
       if (questions.length === 0) {
-        questionEl.textContent = "No exercises found.";
+        questionEl.textContent = window.I18N?.noExercises || "No exercises found.";
         return;
       }
       showQuestion();
     })
     .catch(err => {
-      questionEl.textContent = "Failed to load exercises.";
+      questionEl.textContent = window.I18N?.loadFailed || "Failed to load exercises.";
       console.error("Error loading exercises:", err);
     });
 
