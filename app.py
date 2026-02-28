@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, send_from_directory, abort
+from flask import Flask, render_template, jsonify, request, send_from_directory, abort, Response
 from flask_compress import Compress
 from flask_talisman import Talisman
 from flask_limiter import Limiter
@@ -8,10 +8,22 @@ import os
 import json
 import logging
 import hashlib
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from webapp.config.home_structure.home_structure import LEVEL_STRUCTURE, LEVELS_ORDER
 
 app = Flask(__name__)
+
+# =========================
+# LOGGING CONFIG
+# =========================
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 
 # =========================
 # SECURITY CONFIG
@@ -41,7 +53,8 @@ csp = {
     ],
     'style-src': [
         "'self'",
-        "'unsafe-inline'"
+        "'unsafe-inline'",
+        'https://fonts.googleapis.com'
     ],
     'img-src': [
         "'self'",
@@ -55,7 +68,7 @@ csp = {
         'https://analytics.google.com',
         'https://www.googletagmanager.com'
     ],
-    'font-src': "'self'",
+    'font-src': ["'self'", 'https://fonts.gstatic.com'],
     'frame-ancestors': "'none'"
 }
 
@@ -119,12 +132,18 @@ def _load_and_validate_exercises():
         return []
 
     valid = []
+    seen_ids = set()
     for i, q in enumerate(data):
         missing = [f for f in REQUIRED_FIELDS if f not in q]
         if missing:
             app.logger.warning("Exercise index %d (id=%s) missing fields: %s — skipped",
                                i, q.get('id', '?'), missing)
             continue
+        qid = q['id']
+        if qid in seen_ids:
+            app.logger.warning("Duplicate exercise id=%s at index %d — skipped", qid, i)
+            continue
+        seen_ids.add(qid)
         valid.append(q)
 
     app.logger.info("Loaded %d exercises (%d skipped)", len(valid), len(data) - len(valid))
@@ -132,6 +151,7 @@ def _load_and_validate_exercises():
 
 
 EXERCISES_CACHE = _load_and_validate_exercises()
+EXERCISES_ETAG = hashlib.md5(json.dumps(EXERCISES_CACHE, sort_keys=True).encode()).hexdigest()
 
 
 def load_exercises():
@@ -168,7 +188,8 @@ def asset_version():
 TRANSLATIONS = {
     "Explanation": {"en": "Explanation", "tr": "Açıklama"},
     "Answer": {"en": "Answer", "tr": "Cevap"},
-    "Next Question": {"en": "Next Question", "tr": "Sonraki Soru"}
+    "Next Question": {"en": "Next Question", "tr": "Sonraki Soru"},
+    "All exercises completed!": {"en": "All exercises completed!", "tr": "Tüm alıştırmalar tamamlandı!"}
 }
 
 
@@ -245,30 +266,15 @@ def exercise_by_key(level_key, exercise_key):
 # API ROUTES
 # =========================
 
-@app.route("/api/exercises", methods=["GET"])
-@limiter.limit("30 per minute")
-def get_exercises():
-    """Return all exercises as JSON"""
-    return jsonify(load_exercises())
-
-
-@app.route("/api/exercises/<int:exercise_id>", methods=["GET"])
-@limiter.limit("30 per minute")
-def get_exercise_by_id(exercise_id):
-    """Return single exercise as JSON"""
-    exercises = load_exercises()
-    exercise = next((ex for ex in exercises if ex["id"] == exercise_id), None)
-
-    if not exercise:
-        return jsonify({"error": "Exercise not found"}), 404
-
-    return jsonify(exercise)
-
 
 @app.route("/api/exercises/<level_key>/<exercise_key>", methods=["GET"])
 @limiter.limit("30 per minute")
 def get_exercises_by_level_category(level_key, exercise_key):
     """Return all questions for a given level + exercise_key."""
+    # ETag: let browser skip re-downloading unchanged data
+    if request.headers.get('If-None-Match') == EXERCISES_ETAG:
+        return Response(status=304)
+
     exercises = load_exercises()
 
     parts = exercise_key.split("_", 1)
@@ -284,38 +290,10 @@ def get_exercises_by_level_category(level_key, exercise_key):
     if not filtered:
         return jsonify({"error": "No exercises found"}), 404
 
-    return jsonify(filtered)
+    response = jsonify(filtered)
+    response.headers['ETag'] = EXERCISES_ETAG
+    return response
 
-
-@app.route("/api/answer", methods=["POST"])
-@limiter.limit("20 per minute")
-def check_answer():
-    """Check user's answer with input validation"""
-    data = request.get_json()
-    if not data or "id" not in data or "answer" not in data:
-        return jsonify({"error": "Missing parameters"}), 400
-
-    # Validate types
-    if not isinstance(data["id"], int):
-        return jsonify({"error": "Invalid id"}), 400
-    if not isinstance(data["answer"], str) or len(data["answer"]) > 500:
-        return jsonify({"error": "Invalid answer"}), 400
-
-    # Validate lang
-    lang = data.get("lang", "de")
-    if lang not in ALLOWED_LANGS and lang != "de":
-        lang = "de"
-
-    exercises = load_exercises()
-    question = next((q for q in exercises if q["id"] == data["id"]), None)
-    if not question:
-        return jsonify({"error": "Question not found"}), 404
-
-    is_correct = data["answer"] == question["answer"].get(lang, "")
-    return jsonify({
-        "correct": is_correct,
-        "explanation": question.get("explanation", {}).get(lang, "")
-    })
 
 
 @app.route("/api/i18n/<lang>.json")
@@ -337,7 +315,24 @@ def robots():
 
 @app.route("/sitemap.xml")
 def sitemap():
-    return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
+    base = 'https://www.intuitvegerman.com'
+    urls = [
+        {'loc': f'{base}/', 'priority': '1.0', 'freq': 'weekly'},
+        {'loc': f'{base}/about', 'priority': '0.6', 'freq': 'monthly'},
+    ]
+    for level_key in LEVELS_ORDER:
+        urls.append({'loc': f'{base}/level/{level_key}', 'priority': '0.9', 'freq': 'weekly'})
+        for ex in LEVEL_STRUCTURE[level_key]['exercises']:
+            urls.append({
+                'loc': f'{base}/exercise/{level_key}/{ex["exercise_key"]}',
+                'priority': '0.8', 'freq': 'weekly'
+            })
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for u in urls:
+        xml += f'  <url><loc>{u["loc"]}</loc><changefreq>{u["freq"]}</changefreq><priority>{u["priority"]}</priority></url>\n'
+    xml += '</urlset>'
+    return Response(xml, mimetype='application/xml')
 
 
 @app.route("/.well-known/security.txt")
