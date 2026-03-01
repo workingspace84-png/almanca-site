@@ -235,6 +235,12 @@ def about():
     return render_template("about.html", lang=lang)
 
 
+@app.route("/changelog")
+def changelog():
+    lang = get_lang()
+    return render_template("changelog.html", lang=lang)
+
+
 
 @app.route("/exercise/<level_key>/<exercise_key>")
 def exercise_by_key(level_key, exercise_key):
@@ -319,6 +325,7 @@ def sitemap():
     urls = [
         {'loc': f'{base}/', 'priority': '1.0', 'freq': 'weekly'},
         {'loc': f'{base}/about', 'priority': '0.6', 'freq': 'monthly'},
+        {'loc': f'{base}/changelog', 'priority': '0.3', 'freq': 'monthly'},
     ]
     for level_key in LEVELS_ORDER:
         urls.append({'loc': f'{base}/level/{level_key}', 'priority': '0.9', 'freq': 'weekly'})

@@ -8,6 +8,18 @@
   font-size: 0.9rem;
 }
 
+.footer-changelog-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.footer-changelog-link:hover {
+  color: #999;
+}
+
 @media (max-width: 768px) {
   .site-footer {
     padding: 14px 20px;

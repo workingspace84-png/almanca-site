@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if lang == 'tr' %}Değişiklik Günlüğü{% else %}Changelog{% endif %} – Intuitive German Institute
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/changelog.css') }}?v={{ asset_hash('css/changelog.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="changelog-section">
+
+  <a href="{{ url_for('index', lang=lang) }}" class="back-link">‹ Back</a>
+
+  <div class="changelog-header">
+    <h2>
+      <span class="lang-en">Changelog</span>
+      <span class="lang-tr">Değişiklik Günlüğü</span>
+    </h2>
+    <p class="changelog-subtitle">
+      <span class="lang-en">Recent updates and improvements</span>
+      <span class="lang-tr">Son güncellemeler ve iyileştirmeler</span>
+    </p>
+  </div>
+
+  <div class="changelog-timeline">
+
+    <article class="changelog-entry">
+      <div class="changelog-date">2025-03-01</div>
+      <div class="changelog-body">
+        <span class="changelog-tag tag-new">
+          <span class="lang-en">New</span>
+          <span class="lang-tr">Yeni</span>
+        </span>
+        <h3>
+          <span class="lang-en">Topic-Based Exercise URLs</span>
+          <span class="lang-tr">Konu Bazlı Alıştırma Bağlantıları</span>
+        </h3>
+        <p>
+          <span class="lang-en">Exercises are now organized by topic with clean, readable URLs. A1 has 8 topics, A2 has 16 topics, and B1 has 20 topics — each with descriptive names like "People, Body &amp; Health" instead of generic numbers.</span>
+          <span class="lang-tr">Alıştırmalar artık konu bazlı düzenlendi ve temiz, okunabilir bağlantılarla sunuluyor. A1'de 8, A2'de 16 ve B1'de 20 konu bulunuyor — "İnsanlar, Vücut ve Sağlık" gibi açıklayıcı isimlerle.</span>
+        </p>
+      </div>
+    </article>
+
+    <article class="changelog-entry">
+      <div class="changelog-date">2025-03-01</div>
+      <div class="changelog-body">
+        <span class="changelog-tag tag-new">
+          <span class="lang-en">New</span>
+          <span class="lang-tr">Yeni</span>
+        </span>
+        <h3>
+          <span class="lang-en">Changelog Page</span>
+          <span class="lang-tr">Değişiklik Günlüğü Sayfası</span>
+        </h3>
+        <p>
+          <span class="lang-en">Added this changelog page to keep you informed about site updates and improvements.</span>
+          <span class="lang-tr">Site güncellemeleri ve iyileştirmeler hakkında sizi bilgilendirmek için bu sayfa eklendi.</span>
+        </p>
+      </div>
+    </article>
+
+    <article class="changelog-entry">
+      <div class="changelog-date">2025-02-28</div>
+      <div class="changelog-body">
+        <span class="changelog-tag tag-improved">
+          <span class="lang-en">Improved</span>
+          <span class="lang-tr">İyileştirildi</span>
+        </span>
+        <h3>
+          <span class="lang-en">UI Consistency &amp; Translations</span>
+          <span class="lang-tr">Arayüz Tutarlılığı ve Çeviriler</span>
+        </h3>
+        <p>
+          <span class="lang-en">Polished interface consistency across all pages and fixed translation gaps for a smoother bilingual experience.</span>
+          <span class="lang-tr">Tüm sayfalarda arayüz tutarlılığı sağlandı ve çeviri eksiklikleri giderilerek daha akıcı bir iki dilli deneyim sunuldu.</span>
+        </p>
+      </div>
+    </article>
+
+    <article class="changelog-entry">
+      <div class="changelog-date">2025-02-27</div>
+      <div class="changelog-body">
+        <span class="changelog-tag tag-improved">
+          <span class="lang-en">Improved</span>
+          <span class="lang-tr">İyileştirildi</span>
+        </span>
+        <h3>
+          <span class="lang-en">Performance &amp; Infrastructure</span>
+          <span class="lang-tr">Performans ve Altyapı</span>
+        </h3>
+        <p>
+          <span class="lang-en">Bug fixes, infrastructure hardening, and performance improvements for faster load times.</span>
+          <span class="lang-tr">Hata düzeltmeleri, altyapı güçlendirmeleri ve daha hızlı yükleme süreleri için performans iyileştirmeleri.</span>
+        </p>
+      </div>
+    </article>
+
+    <article class="changelog-entry">
+      <div class="changelog-date">2025-02-26</div>
+      <div class="changelog-body">
+        <span class="changelog-tag tag-new">
+          <span class="lang-en">New</span>
+          <span class="lang-tr">Yeni</span>
+        </span>
+        <h3>
+          <span class="lang-en">Progress Tracking &amp; SEO</span>
+          <span class="lang-tr">İlerleme Takibi ve SEO</span>
+        </h3>
+        <p>
+          <span class="lang-en">Added exercise progress tracking so you can see your scores. Improved search engine optimization and added security layers.</span>
+          <span class="lang-tr">Alıştırma ilerleme takibi eklendi, böylece puanlarınızı görebilirsiniz. Arama motoru optimizasyonu geliştirildi ve güvenlik katmanları eklendi.</span>
+        </p>
+      </div>
+    </article>
+
+    <article class="changelog-entry">
+      <div class="changelog-date">2025-02-25</div>
+      <div class="changelog-body">
+        <span class="changelog-tag tag-improved">
+          <span class="lang-en">Improved</span>
+          <span class="lang-tr">İyileştirildi</span>
+        </span>
+        <h3>
+          <span class="lang-en">Security Hardening</span>
+          <span class="lang-tr">Güvenlik Güçlendirmesi</span>
+        </h3>
+        <p>
+          <span class="lang-en">Added security headers, rate limiting, input validation, and XSS protection across the platform.</span>
+          <span class="lang-tr">Platform genelinde güvenlik başlıkları, hız sınırlaması, girdi doğrulaması ve XSS koruması eklendi.</span>
+        </p>
+      </div>
+    </article>
+
+  </div>
+
+</section>
+{% endblock %}
