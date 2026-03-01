@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const url = window.EXERCISE_DATA || "";
       const parts = url.split("/");
-      // URL format: /api/exercises/A1/a1_ex_1
+      // URL format: /api/exercises/A1/people-body-health
       const levelKey = parts[parts.length - 2];
       const exerciseKey = parts[parts.length - 1];
       return { levelKey, exerciseKey };

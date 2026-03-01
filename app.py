@@ -281,14 +281,10 @@ def get_exercises_by_level_category(level_key, exercise_key):
 
     exercises = load_exercises()
 
-    parts = exercise_key.split("_", 1)
-    category = parts[1] if len(parts) == 2 else exercise_key
-    category = category.replace("ex_", "exercise_")
-
     filtered = [
         ex for ex in exercises
         if ex.get("level", "").upper() == level_key.upper()
-        and ex.get("exercise", "") == category
+        and ex.get("exercise", "") == exercise_key
     ]
 
     if not filtered:
