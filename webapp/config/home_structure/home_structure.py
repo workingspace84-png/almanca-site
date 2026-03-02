@@ -17,6 +17,7 @@ LEVEL_STRUCTURE = {
             {"exercise_key": "eating-drinking",        "title": {"en": "Eating & Drinking",          "tr": "Yeme ve İçme"}},
             {"exercise_key": "nature-environment",     "title": {"en": "Nature & Environment",       "tr": "Doğa ve Çevre"}},
             {"exercise_key": "time",                   "title": {"en": "Time",                      "tr": "Zaman"}},
+            {"exercise_key": "family-friends",         "title": {"en": "Family & Friends",           "tr": "Aile ve Arkadaşlar"}},
         ]
     },
     "A2": {
