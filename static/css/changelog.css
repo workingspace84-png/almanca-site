@@ -1,13 +1,17 @@
-/* Changelog page */
+/* ==============================
+   Changelog page
+   ============================== */
+
 .changelog-section {
-  max-width: 700px;
+  max-width: 680px;
   margin: 0 auto;
-  padding: 20px 30px 40px;
+  padding: 20px 30px 56px;
 }
 
+/* Header */
 .changelog-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .changelog-header h2 {
@@ -18,76 +22,116 @@
 
 .changelog-subtitle {
   color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+/* Back link */
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: var(--text-muted);
   font-size: 0.9rem;
+  text-decoration: none;
 }
 
-/* Timeline */
+.back-link:hover {
+  color: var(--text-color);
+}
+
+/* Timeline container */
 .changelog-timeline {
-  position: relative;
-  padding-left: 24px;
-  border-left: 2px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
+/* Single entry row: meta (dot + date) + card */
 .changelog-entry {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 0 20px;
   position: relative;
-  margin-bottom: 28px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.changelog-entry:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-/* Timeline dot */
-.changelog-entry::before {
+/* Vertical connector line between entries */
+.changelog-entry::after {
   content: '';
   position: absolute;
-  left: -29px;
-  top: 6px;
-  width: 8px;
-  height: 8px;
+  left: 73px; /* center of the dot column */
+  top: 22px;
+  bottom: -1px;
+  width: 1px;
+  background: var(--border-color);
+}
+
+.changelog-entry:last-child::after {
+  display: none;
+}
+
+/* ---- Meta column (dot + date) ---- */
+.changelog-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 14px;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.changelog-dot {
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background-color: var(--border-color);
+  flex-shrink: 0;
   border: 2px solid var(--background-color);
 }
 
-/* Date */
+.dot-new      { background-color: #3fb950; }
+.dot-improved { background-color: #58a6ff; }
+.dot-fixed    { background-color: #d29922; }
+
 .changelog-date {
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
-  margin-bottom: 6px;
-  font-family: monospace;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Entry body */
-.changelog-body h3 {
-  font-size: 1.05rem;
+/* ---- Card column ---- */
+.changelog-card {
+  background: #1a1a1a;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-medium);
+  padding: 14px 18px 16px;
+  margin-bottom: 14px;
+}
+
+.changelog-card h3 {
+  font-size: 0.97rem;
   color: var(--heading-color);
-  margin-bottom: 4px;
   font-weight: 500;
+  margin: 4px 0 6px;
 }
 
-.changelog-body p {
-  font-size: 0.88rem;
+.changelog-card p {
+  font-size: 0.85rem;
   color: var(--text-muted);
-  line-height: 1.55;
+  line-height: 1.6;
   margin: 0;
 }
 
 /* Tags */
 .changelog-tag {
   display: inline-block;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.9px;
   padding: 2px 8px;
   border-radius: 3px;
-  margin-bottom: 6px;
 }
 
 .tag-new {
@@ -105,33 +149,26 @@
   color: #d29922;
 }
 
-/* Back link */
-.back-link {
-  display: inline-block;
-  margin-bottom: 20px;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-.back-link:hover {
-  color: var(--text-color);
-}
-
-/* Responsive */
+/* ---- Responsive ---- */
 @media (max-width: 600px) {
   .changelog-section {
-    padding: 16px 16px 32px;
+    padding: 16px 16px 40px;
   }
 
-  .changelog-header h2 {
-    font-size: 1.5rem;
+  .changelog-entry {
+    grid-template-columns: 72px 1fr;
+    gap: 0 12px;
   }
 
-  .changelog-timeline {
-    padding-left: 18px;
+  .changelog-entry::after {
+    left: 57px;
   }
 
-  .changelog-entry::before {
-    left: -23px;
+  .changelog-date {
+    font-size: 0.65rem;
+  }
+
+  .changelog-card {
+    padding: 12px 14px 14px;
   }
 }
