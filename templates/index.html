@@ -20,11 +20,13 @@ Intuitive German Institute homepage: Learn German grammar and exercises through 
 
 <div class="levels-container">
   {% for level in LEVELS_ORDER %}
-  <a href="{{ url_for('level_detail', level_key=level) }}?lang={{ lang }}" class="level-card" data-level="{{ level }}" data-exercises="{{ LEVEL_STRUCTURE[level].exercises | map(attribute='exercise_key') | list | tojson }}">
+  {% if AVAILABLE_EXERCISES.get(level) %}
+  <a href="{{ url_for('level_detail', level_key=level) }}?lang={{ lang }}" class="level-card" data-level="{{ level }}" data-exercises="{{ LEVEL_STRUCTURE[level].exercises | selectattr('exercise_key', 'in', AVAILABLE_EXERCISES.get(level, [])) | map(attribute='exercise_key') | list | tojson }}">
     <span class="level-badge">{{ level }}</span>
     <span class="level-progress"></span>
     <span class="level-card-arrow">›</span>
   </a>
+  {% endif %}
   {% endfor %}
 </div>
 

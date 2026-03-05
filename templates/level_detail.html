@@ -16,9 +16,10 @@
     <p>{{ level.description.get(lang, '') }}</p>
   </div>
 
-  {% if level.exercises %}
+  {% set available_exercises = level.exercises | selectattr('exercise_key', 'in', available) | list %}
+  {% if available_exercises %}
   <div class="exercise-list">
-    {% for exercise in level.exercises %}
+    {% for exercise in available_exercises %}
     <a href="{{ url_for('exercise_by_key', level_key=level.level, exercise_key=exercise.exercise_key) }}?lang={{ lang }}" class="exercise-card" data-progress-key="progress_{{ level.level }}_{{ exercise.exercise_key }}">
       <h4>{{ exercise.title[lang] if exercise.title is mapping else exercise.title }}</h4>
       <span class="exercise-score" id="score_{{ exercise.exercise_key }}"></span>

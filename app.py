@@ -154,6 +154,15 @@ def _load_and_validate_exercises():
 EXERCISES_CACHE = _load_and_validate_exercises()
 EXERCISES_ETAG = hashlib.md5(json.dumps(EXERCISES_CACHE, sort_keys=True).encode()).hexdigest()
 
+# Derived from EXERCISES_CACHE: which exercise slugs actually have data, per level.
+# Used by templates to hide links for exercises/levels with no content yet.
+AVAILABLE_EXERCISES: dict[str, set[str]] = {}
+for _ex in EXERCISES_CACHE:
+    _lvl = _ex.get("level", "").upper()
+    _slug = _ex.get("exercise", "")
+    if _lvl and _slug:
+        AVAILABLE_EXERCISES.setdefault(_lvl, set()).add(_slug)
+
 
 def load_exercises():
     """Return cached exercises list."""
@@ -214,6 +223,7 @@ def index():
         "index.html",
         LEVELS_ORDER=LEVELS_ORDER,
         LEVEL_STRUCTURE=LEVEL_STRUCTURE,
+        AVAILABLE_EXERCISES=AVAILABLE_EXERCISES,
         lang=lang
     )
 
@@ -226,7 +236,8 @@ def level_detail(level_key):
     level = LEVEL_STRUCTURE.get(level_key_upper)
     if not level:
         abort(404)
-    return render_template("level_detail.html", level=level, lang=lang)
+    available = AVAILABLE_EXERCISES.get(level_key_upper, set())
+    return render_template("level_detail.html", level=level, available=available, lang=lang)
 
 
 @app.route("/about")
@@ -257,6 +268,8 @@ def exercise_by_key(level_key, exercise_key):
         None
     )
     if not found_exercise:
+        abort(404)
+    if exercise_key not in AVAILABLE_EXERCISES.get(level_key_upper, set()):
         abort(404)
 
     exercise_title = found_exercise.get("title", {})
