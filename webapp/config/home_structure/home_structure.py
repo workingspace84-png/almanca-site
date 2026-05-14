@@ -43,7 +43,6 @@ LEVEL_STRUCTURE = {
             {"exercise_key": "money-finances",             "title": {"en": "Money & Finances",              "tr": "Para ve Finans"}},
             {"exercise_key": "technology-digital",         "title": {"en": "Technology & Digital Life",     "tr": "Teknoloji ve Dijital Yaşam"}},
             {"exercise_key": "personal-care-appearance",   "title": {"en": "Personal Care & Appearance",    "tr": "Kişisel Bakım ve Görünüm"}},
-            {"exercise_key": "Grammer",                    "title": {"en": "Grammer",                      "tr": "Gramer Bilgisi"}},
         ]
     },
     "B1": {
