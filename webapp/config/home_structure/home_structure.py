@@ -9,8 +9,8 @@ LEVEL_STRUCTURE = {
             "tr": "Başlangıç seviyesi – temel Almanca dilbilgisi alıştırmaları."
         },
         "exercises": [
-            {"exercise_key": "exercise_1",             "title": {"en": "Articles: Die, Der, Das",         "tr": "Artikeller: Die, Der, Das"}},
-            {"exercise_key": "exercise_2",             "title": {"en": "Articles II: Die, Der, Das",      "tr": "Artikeller II: Die, Der, Das"}},
+            {"exercise_key": "exercise_A1_1",             "title": {"en": "Articles: Die, Der, Das",         "tr": "Artikeller: Die, Der, Das"}},
+            {"exercise_key": "exercise_A1_2",             "title": {"en": "Articles II: Die, Der, Das",      "tr": "Artikeller II: Die, Der, Das"}},
             {"exercise_key": "home-everyday-life",     "title": {"en": "Home & Everyday Life",      "tr": "Ev ve Günlük Yaşam"}},
             {"exercise_key": "work",                   "title": {"en": "Work",                      "tr": "İş"}},
             {"exercise_key": "public-life",            "title": {"en": "Public Life",                "tr": "Kamusal Yaşam"}},
