@@ -7,11 +7,6 @@
     "sentence_de": "Meine Schwester lebt in Düsseldorf",
     "translation_en": "My sister lives in Düsseldorf",
     "translation_tr": "Kız kardeşim Düsseldorf'ta yaşıyor",
-    "options": [
-      "Third-person singular",
-      "Simple past tense"
-  ],
-  "correct_index": 0 
     "explanation_en": "The verb 'lebt' is the third-person singular of 'leben'. The '-t' ending is like a fingerprint; whenever you see it, you know the subject is one person: er, sie, or es",
     "explanation_tr": "Lebt' fiili, 'leben' fiilinin üçüncü tekil şahıs hâlidir. '-t' takısı bir parmak izi gibidir; gördüğünüzde öznenin tek bir kişi olduğunu anlarsınız: er, sie veya es"
   },
