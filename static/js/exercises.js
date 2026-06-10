@@ -111,15 +111,15 @@ document.addEventListener("DOMContentLoaded", () => {
       questionEl.appendChild(translationEm);
     }
 
-    // Actual question text
-    const questionKey = `question_${lang}`;
-    if (q[questionKey]) {
-      questionEl.appendChild(document.createElement("br"));
-      questionEl.appendChild(document.createElement("br"));
-      const questionSpan = document.createElement("span");
-      questionSpan.textContent = q[questionKey];
-      questionEl.appendChild(questionSpan);
-    }
+    const questionText = lang === "tr"
+      ? "Aşağıdakilerden hangisi boşluğa uyar?"
+      : "Which of the following fits in the blank?";
+
+     questionEl.appendChild(document.createElement("br"));
+     questionEl.appendChild(document.createElement("br"));
+    const questionSpan = document.createElement("span");
+     questionSpan.textContent = questionText;
+     questionEl.appendChild(questionSpan);
 
     // Build options list from the question data
     // option_1 is always the correct answer
