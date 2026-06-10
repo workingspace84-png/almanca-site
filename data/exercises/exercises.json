@@ -2,7 +2,7 @@
   {
     "id": 1,
     "level": "A1",
-    "exercise": "exercise_1",
+    "exercise": "exercise_A1_1",
     "category": "Articles: Die, Der, Das",
     "sentence_de": "Meine Schwester lebt in Düsseldorf",
     "translation_en": "My sister lives in Düsseldorf",
@@ -21,7 +21,7 @@
   {
     "id": 2,
     "level": "A1",
-    "exercise": "exercise_2",
+    "exercise": "exercise_A1_2",
     "category": "Articles II: Die, Der, Das",
     "sentence_de": "In Deutschland leben etwa 3 Millionen Türken",
     "translation_en": "In Germany, approximately 3 million Turks live",
