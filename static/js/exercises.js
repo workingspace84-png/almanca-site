@@ -111,38 +111,57 @@ document.addEventListener("DOMContentLoaded", () => {
       questionEl.appendChild(translationEm);
     }
 
-    // Actual question text
-    const questionKey = `question_${lang}`;
-    if (q[questionKey]) {
-      questionEl.appendChild(document.createElement("br"));
-      questionEl.appendChild(document.createElement("br"));
-      const questionSpan = document.createElement("span");
-      questionSpan.textContent = q[questionKey];
-      questionEl.appendChild(questionSpan);
+    // Centralized question text - NO JSON needed!
+     questionEl.appendChild(document.createElement("br"));
+     questionEl.appendChild(document.createElement("br"));
+    const questionText = lang === "tr" 
+      ? "Aşağıdakilerden hangisi boşluğa uyar?"
+      : "Which of the following fits in the blank?";
+    const questionSpan = document.createElement("span");
+     questionSpan.textContent = questionText;
+     questionEl.appendChild(questionSpan);
+
+    /* YENİ KOD BAŞLANGICI */
+    // NEW LOGIC: Expecting a single 'options' array and a 'correct_index' or 'correct_answer' field
+    const optionsData = q.options || []; 
+    let correctIndex = -1;
+    
+    // Find correct index: either by 'correct_index' field or matching 'correct_answer' text
+    if (q.correct_index !== undefined && q.correct_index >= 0 && q.correct_index < optionsData.length) {
+      correctIndex = q.correct_index;
+    } else if (q.correct_answer) {
+      correctIndex = optionsData.indexOf(q.correct_answer);
     }
 
-    // Build options list from the question data
-    // option_1 is always the correct answer
-    const optionsList = [];
-    for (let i = 1; i <= 3; i++) {
-      const optionKey = `option_${i}_${lang}`;
-      if (q[optionKey]) {
-        optionsList.push({ text: q[optionKey], isCorrect: i === 1 });
-      }
+    // If no correct index found, fallback to first option just in case (safeguard)
+    if (correctIndex === -1 && optionsData.length > 0) {
+      correctIndex = 0; 
     }
 
-    // Shuffle so the correct answer isn't always first
-    shuffleArray(optionsList);
+    // Shuffle options BUT keep track of the original correct index
+    // We create objects { text: "...", originalIndex: N } then shuffle
+    let shuffledOptions = optionsData.map((text, idx) => ({ text, originalIndex: idx }));
+    shuffleArray(shuffledOptions);
 
     // Create option buttons
-    optionsList.forEach(option => {
+    shuffledOptions.forEach(optObj => {
       const btn = document.createElement("button");
-      btn.textContent = option.text;
+      btn.textContent = optObj.text;
       btn.className = "option-btn";
-      if (option.isCorrect) btn.dataset.correct = "true";
-      btn.addEventListener("click", () => handleAnswer(option.isCorrect, q, btn));
+      
+      // Check if this button's original position was the correct one
+      if (optObj.originalIndex === correctIndex) {
+        btn.dataset.correct = "true";
+      }
+      
+      btn.addEventListener("click", () => {
+        const isThisCorrect = (optObj.originalIndex === correctIndex);
+        handleAnswer(isThisCorrect, q, btn);
+      });
+      
       optionsEl.appendChild(btn);
     });
+    /* YENİ KOD BİTİŞİ */
 
     // Progress indicator
     scoreEl.textContent = lang === "tr"
