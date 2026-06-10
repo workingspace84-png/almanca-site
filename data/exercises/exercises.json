@@ -5,6 +5,8 @@
     "exercise": "exercise_A1_1",
     "category": "Articles: Die, Der, Das",
     "sentence_de": "Meine Schwester lebt in Düsseldorf",
+    "question_en": "Which one is the subject of the sentence?",
+    "question_tr": "Cümlenin öznesi hangisidir?",
     "translation_en": "My sister lives in Düsseldorf",
     "translation_tr": "Kız kardeşim Düsseldorf'ta yaşıyor",
     "option_1": "Third-person singular",
