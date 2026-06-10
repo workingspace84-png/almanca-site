@@ -27,7 +27,7 @@ LEVEL_STRUCTURE = {
             "tr": "Temel seviye – Almanca dilbilgisinin temellerini pekiştirin."
         },
         "exercises": [
-            {"exercise_key": "body-feelings-health",       "title": {"en": "Body, Feelings & Health",       "tr": "Vücut, Duygular ve Sağlık"}},
+            {"exercise_key": "exercise_A2_1",       "title": {"en": "Seeing Verbs & Their Nuances",         "tr": "Görme Fiillerindeki İnce Farklar"}},
             {"exercise_key": "communication-media",        "title": {"en": "Communication & Media",         "tr": "İletişim ve Medya"}},
             {"exercise_key": "housing-daily-routines",     "title": {"en": "Housing & Daily Routines",      "tr": "Konut ve Günlük Rutinler"}},
             {"exercise_key": "work-career",                "title": {"en": "Work & Career",                 "tr": "İş ve Kariyer"}},
