@@ -39,9 +39,9 @@
   },
   {
     "id": 3,
-    "level": "A1",
-    "exercise": "people-body-health",
-    "category": "People&Body&Health",
+    "level": "A2",
+    "exercise": "exercise_A2_1",
+    "category": "Seeing Verbs & Their Nuances",
     "sentence_de": "Ich habe keine Schmerzen",
     "translation_en": "I have no pain",
     "translation_tr": "Hiç ağrım yok",
