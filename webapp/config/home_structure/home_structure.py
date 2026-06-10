@@ -10,7 +10,7 @@ LEVEL_STRUCTURE = {
         },
         "exercises": [
             {"exercise_key": "Articles: Die, Der, Das",    "title": {"en": "Articles: Die, Der, Das",    "tr": "Artikeller: Die, Der, Das"}},
-            {"exercise_key": "communication",          "title": {"en": "Communication",             "tr": "İletişim"}},
+            {"exercise_key": "Articles II: Die, Der, Das",          "title": {"en": "Articles II: Die, Der, Das",             "tr": "Artikeller II II: Die, Der, Das"}},
             {"exercise_key": "home-everyday-life",     "title": {"en": "Home & Everyday Life",      "tr": "Ev ve Günlük Yaşam"}},
             {"exercise_key": "work",                   "title": {"en": "Work",                      "tr": "İş"}},
             {"exercise_key": "public-life",            "title": {"en": "Public Life",                "tr": "Kamusal Yaşam"}},
